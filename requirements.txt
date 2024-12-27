@@ -1,0 +1,13 @@
+# Required libraries used for the pdfa project
+
+# Fetching the stock market data
+yfinance
+
+# Carrying out data manipulation and analysis
+pandas
+numpy
+
+# Visualising the data
+matplotlib
+seaborn
+

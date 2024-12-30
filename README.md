@@ -72,5 +72,16 @@ https://en.wikipedia.org/wiki/List_of_S%26P_500_companies
 &nbsp;&nbsp;&nbsp;&nbsp;https://www.investopedia.com/terms/d/dividendyield.asp
 
 - Understanding interpolation: 
-&nbsp;&nbsp;&nbsp;&nbsp;https://www.investopedia.com/terms/i/interpolation.asp  
+&nbsp;&nbsp;&nbsp;&nbsp;https://www.investopedia.com/terms/i/interpolation.asp 
+&nbsp;&nbsp;&nbsp;&nbsp;https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.interpolate.html 
 &nbsp;&nbsp;&nbsp;&nbsp;Interpolation is a technique used to fill in missing data, two related values are used to fill in the missing value.  In this project it will be used to fill in the gaps in data for days in which the New York stock exchange is not open.  This will help show a neater visual when plotting the data and fill in the NaN values. 
+
+- Understanding volatility: 
+&nbsp;&nbsp;&nbsp;&nbsp; https://medium.com/@polanitzer/volatility-calculation-in-python-estimate-the-annualized-volatility-of-historical-stock-prices-db937366a54d#:~:text=37.6%25%20per%20annum.-,4.%20Volatility,-The%20volatility%20of 
+&nbsp;&nbsp;&nbsp;&nbsp; Beta volatility - https://www.investopedia.com/investing/beta-know-risk/#:~:text=Beta%20is%20a%20measure%20of,has%20a%20beta%20above%201.0.
+
+- Grouping data: 
+&nbsp;&nbsp;&nbsp;&nbsp; https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.groupby.html
+
+- Using a dictionary for colours in a plot:
+&nbsp;&nbsp;&nbsp;&nbsp; https://stackoverflow.com/questions/73077364/using-a-dictionary-to-plot-a-bar-plot-and-using-another-dictionary-to-give-each

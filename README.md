@@ -85,3 +85,9 @@ https://en.wikipedia.org/wiki/List_of_S%26P_500_companies
 
 - Using a dictionary for colours in a plot:
 &nbsp;&nbsp;&nbsp;&nbsp; https://stackoverflow.com/questions/73077364/using-a-dictionary-to-plot-a-bar-plot-and-using-another-dictionary-to-give-each
+
+- ``SettingWithCopyWarning`` issue:
+&nbsp;&nbsp;&nbsp;&nbsp; https://www.dataquest.io/blog/settingwithcopywarning/
+
+- Understanding Volume patterns:
+&nbsp;&nbsp;&nbsp;&nbsp; https://www.investopedia.com/articles/technical/02/010702.asp

@@ -96,3 +96,6 @@ https://en.wikipedia.org/wiki/List_of_S%26P_500_companies
 &nbsp;&nbsp;&nbsp;&nbsp;https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.pct_change.html
 &nbsp;&nbsp;&nbsp;&nbsp;https://www.w3schools.com/python/pandas/ref_df_pct_change.asp
 &nbsp;&nbsp;&nbsp;&nbsp;The ``.pct_change`` method is used to return the differences between a value, going row-by-row comparing with the previous row. It's used in the project to check the percentage change between the 'Close' columns from one day to the next. These results are then stored in a new column in the DataFrame called 'Daily_Returns'. These values are then used to assess if there are potentially any industries with similar patterns by comparing their daily returns based on percentage change instead of absolute values.
+
+- Understanding .stack():  
+&nbsp;&nbsp;&nbsp;&nbsp;Takes the headers in the pivot table and converts them into values in a row for the "Company" column.

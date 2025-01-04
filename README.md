@@ -77,17 +77,22 @@ https://en.wikipedia.org/wiki/List_of_S%26P_500_companies
 &nbsp;&nbsp;&nbsp;&nbsp;Interpolation is a technique used to fill in missing data, two related values are used to fill in the missing value.  In this project it will be used to fill in the gaps in data for days in which the New York stock exchange is not open.  This will help show a neater visual when plotting the data and fill in the NaN values. 
 
 - Understanding volatility: 
-&nbsp;&nbsp;&nbsp;&nbsp; https://medium.com/@polanitzer/volatility-calculation-in-python-estimate-the-annualized-volatility-of-historical-stock-prices-db937366a54d#:~:text=37.6%25%20per%20annum.-,4.%20Volatility,-The%20volatility%20of 
-&nbsp;&nbsp;&nbsp;&nbsp; Beta volatility - https://www.investopedia.com/investing/beta-know-risk/#:~:text=Beta%20is%20a%20measure%20of,has%20a%20beta%20above%201.0.
+&nbsp;&nbsp;&nbsp;&nbsp;https://medium.com/@polanitzer/volatility-calculation-in-python-estimate-the-annualized-volatility-of-historical-stock-prices-db937366a54d#:~:text=37.6%25%20per%20annum.-,4.%20Volatility,-The%20volatility%20of 
+&nbsp;&nbsp;&nbsp;&nbsp;Beta volatility - https://www.investopedia.com/investing/beta-know-risk/#:~:text=Beta%20is%20a%20measure%20of,has%20a%20beta%20above%201.0.
 
 - Grouping data: 
-&nbsp;&nbsp;&nbsp;&nbsp; https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.groupby.html
+&nbsp;&nbsp;&nbsp;&nbsp;https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.groupby.html
 
 - Using a dictionary for colours in a plot:
-&nbsp;&nbsp;&nbsp;&nbsp; https://stackoverflow.com/questions/73077364/using-a-dictionary-to-plot-a-bar-plot-and-using-another-dictionary-to-give-each
+&nbsp;&nbsp;&nbsp;&nbsp;https://stackoverflow.com/questions/73077364/using-a-dictionary-to-plot-a-bar-plot-and-using-another-dictionary-to-give-each
 
 - ``SettingWithCopyWarning`` issue:
-&nbsp;&nbsp;&nbsp;&nbsp; https://www.dataquest.io/blog/settingwithcopywarning/
+&nbsp;&nbsp;&nbsp;&nbsp;https://www.dataquest.io/blog/settingwithcopywarning/
 
 - Understanding Volume patterns:
-&nbsp;&nbsp;&nbsp;&nbsp; https://www.investopedia.com/articles/technical/02/010702.asp
+&nbsp;&nbsp;&nbsp;&nbsp;https://www.investopedia.com/articles/technical/02/010702.asp
+
+- Understanding .pct_change(): 
+&nbsp;&nbsp;&nbsp;&nbsp;https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.pct_change.html
+&nbsp;&nbsp;&nbsp;&nbsp;https://www.w3schools.com/python/pandas/ref_df_pct_change.asp
+&nbsp;&nbsp;&nbsp;&nbsp;The ``.pct_change`` method is used to return the differences between a value, going row-by-row comparing with the previous row. It's used in the project to check the percentage change between the 'Close' columns from one day to the next. These results are then stored in a new column in the DataFrame called 'Daily_Returns'. These values are then used to assess if there are potentially any industries with similar patterns by comparing their daily returns based on percentage change instead of absolute values.

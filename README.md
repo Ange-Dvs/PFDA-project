@@ -79,6 +79,8 @@ https://en.wikipedia.org/wiki/List_of_S%26P_500_companies
 - Understanding volatility: 
 &nbsp;&nbsp;&nbsp;&nbsp;https://medium.com/@polanitzer/volatility-calculation-in-python-estimate-the-annualized-volatility-of-historical-stock-prices-db937366a54d#:~:text=37.6%25%20per%20annum.-,4.%20Volatility,-The%20volatility%20of 
 &nbsp;&nbsp;&nbsp;&nbsp;Beta volatility - https://www.investopedia.com/investing/beta-know-risk/#:~:text=Beta%20is%20a%20measure%20of,has%20a%20beta%20above%201.0.
+&nbsp;&nbsp;&nbsp;&nbsp;*Volatility* - measures that risk of investing in a stock based on the fluctuation in it's price over time. If a stock is described as high volatility, the stock price changes a lot, while low volatility means it's more stable.  
+&nbsp;&nbsp;&nbsp;&nbsp;*Beta Volatility* - measures the relative risk of a stock compared to the overall market. It shows how sensitive a stock is to market movements.
 
 - Grouping data: 
 &nbsp;&nbsp;&nbsp;&nbsp;https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.groupby.html
@@ -102,3 +104,9 @@ https://en.wikipedia.org/wiki/List_of_S%26P_500_companies
 
 - Understanding .enumerate():  
 &nbsp;&nbsp;&nbsp;&nbsp;Works as a way to loop over objects while also keeping count for the loop. The function takes in two arguments, the sequence to be used for the loop and optionally the starting value for the loop. Using indexing enumerate adds the possibility to access key-pair information from a dictionary, this makes it possible to change values to be used in a loop after each iteration. It is used to loop through each column name in ``industry_returns.columns`` (e.g., 'Technology', 'Quantum Computing'). It tracks the index if a counter is defined (``i`` or ``j`` in the project) associated with each column, starting at 0.
+
+- Understanding Boxplot:  
+&nbsp;&nbsp;&nbsp;&nbsp;https://www.geeksforgeeks.org/boxplot-using-seaborn-in-python/
+&nbsp;&nbsp;&nbsp;&nbsp;https://seaborn.pydata.org/archive/0.11/generated/seaborn.boxplot.html#:~:text=boxplot,-seaborn.&text=Draw%20a%20box%20plot%20to,levels%20of%20a%20categorical%20variable.
+&nbsp;&nbsp;&nbsp;&nbsp;https://www.ncl.ac.uk/webtemplate/ask-assets/external/maths-resources/statistics/data-presentation/box-and-whisker-plots.html
+&nbsp;&nbsp;&nbsp;&nbsp;https://www.tableau.com/chart/what-is-box-and-whisker-plot

@@ -92,10 +92,13 @@ https://en.wikipedia.org/wiki/List_of_S%26P_500_companies
 - Understanding Volume patterns:
 &nbsp;&nbsp;&nbsp;&nbsp;https://www.investopedia.com/articles/technical/02/010702.asp
 
-- Understanding .pct_change(): 
-&nbsp;&nbsp;&nbsp;&nbsp;https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.pct_change.html
-&nbsp;&nbsp;&nbsp;&nbsp;https://www.w3schools.com/python/pandas/ref_df_pct_change.asp
+- Understanding .pct_change():  
+&nbsp;&nbsp;&nbsp;&nbsp;https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.pct_change.html  
+&nbsp;&nbsp;&nbsp;&nbsp;https://www.w3schools.com/python/pandas/ref_df_pct_change.asp  
 &nbsp;&nbsp;&nbsp;&nbsp;The ``.pct_change`` method is used to return the differences between a value, going row-by-row comparing with the previous row. It's used in the project to check the percentage change between the 'Close' columns from one day to the next. These results are then stored in a new column in the DataFrame called 'Daily_Returns'. These values are then used to assess if there are potentially any industries with similar patterns by comparing their daily returns based on percentage change instead of absolute values.
 
 - Understanding .stack():  
 &nbsp;&nbsp;&nbsp;&nbsp;Takes the headers in the pivot table and converts them into values in a row for the "Company" column.
+
+- Understanding .enumerate():  
+&nbsp;&nbsp;&nbsp;&nbsp;Works as a way to loop over objects while also keeping count for the loop. The function takes in two arguments, the sequence to be used for the loop and optionally the starting value for the loop. Using indexing enumerate adds the possibility to access key-pair information from a dictionary, this makes it possible to change values to be used in a loop after each iteration. It is used to loop through each column name in ``industry_returns.columns`` (e.g., 'Technology', 'Quantum Computing'). It tracks the index if a counter is defined (``i`` or ``j`` in the project) associated with each column, starting at 0.

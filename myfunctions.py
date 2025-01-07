@@ -75,3 +75,48 @@ def company_1_yr_plots (selected_companies, industry, fullnames, colours, data):
         # Add the main title
         plt.suptitle(f'1 year view of {fullname1} & {fullname2}', fontsize=20)
         plt.show()
+
+def company_mid_term_close_plots(selected_companies, fullnames, data): 
+    company1 = selected_companies[0]
+    company2 = selected_companies[1]    
+    
+    company_df1 = data['5y'][data['5y']['Company'] == company1].copy()
+    company_df2 = data['5y'][data['5y']['Company'] == company2].copy()
+    plt.figure(figsize=(14, 6))
+    
+    plt.subplot(1,2,1)
+    plt.plot(company_df1['Close'], label='Close Price', color='powderblue')
+
+    # calculating and plotting Moving Averages
+    company_df1['SMA_50'] = company_df1['Close'].rolling(window=50).mean()
+    company_df1['SMA_200'] = company_df1['Close'].rolling(window=200).mean()
+    plt.plot(company_df1['SMA_50'], label='50-Day SMA', linestyle='--', color='green')
+    plt.plot(company_df1['SMA_200'], label='200-Day SMA', linestyle='--', color='orange')
+    
+    # plotting Close Prices
+    plt.plot(company_df1['Close'], label='Close Price', color='powderblue')
+
+    plt.title(f'{fullnames[company1]} - Close Prices (5-Year)', fontweight='bold')
+    plt.xlabel('Date')
+    plt.ylabel('Close Price')
+    plt.grid(True)
+
+    #repeating for company 2
+    plt.subplot(1,2,2)
+    plt.plot(company_df2['Close'], label='Close Price', color='powderblue')
+
+  
+    company_df2['SMA_50'] = company_df2['Close'].rolling(window=50).mean()
+    company_df2['SMA_200'] = company_df2['Close'].rolling(window=200).mean()
+    plt.plot(company_df2['SMA_50'], label='50-Day SMA', linestyle='--', color='green')
+    plt.plot(company_df2['SMA_200'], label='200-Day SMA', linestyle='--', color='orange')
+    
+    plt.title(f'{fullnames[company2]} - Close Prices (5-Year)', fontweight='bold')
+    plt.xlabel('Date')
+    plt.grid(True)
+
+
+    plt.legend(framealpha=1.0, fontsize=12, ncols=3, bbox_to_anchor=(0.2,1.2))
+    plt.suptitle(f'5 year view of Close Prices for {fullnames[company1]} & {fullnames[company2]}', fontsize=20, y=1.10)
+    plt.grid(True)
+    plt.show()

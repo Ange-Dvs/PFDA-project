@@ -110,3 +110,7 @@ https://en.wikipedia.org/wiki/List_of_S%26P_500_companies
 &nbsp;&nbsp;&nbsp;&nbsp;https://seaborn.pydata.org/archive/0.11/generated/seaborn.boxplot.html#:~:text=boxplot,-seaborn.&text=Draw%20a%20box%20plot%20to,levels%20of%20a%20categorical%20variable.
 &nbsp;&nbsp;&nbsp;&nbsp;https://www.ncl.ac.uk/webtemplate/ask-assets/external/maths-resources/statistics/data-presentation/box-and-whisker-plots.html
 &nbsp;&nbsp;&nbsp;&nbsp;https://www.tableau.com/chart/what-is-box-and-whisker-plot
+
+Understanding SMA: 
+&nbsp;&nbsp;&nbsp;&nbsp;"A simple moving average (SMA) is a simple trading indicator to calculate and use. To calculate it, you add a number of prices together and then divide by the number of prices you added. An example makes the SMA clearer."
+&nbsp;&nbsp;&nbsp;&nbsp;https://www.dummies.com/article/business-careers-money/personal-finance/investing/general-investing/how-to-calculate-simple-moving-average-in-trading-160018/

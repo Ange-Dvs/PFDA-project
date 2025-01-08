@@ -76,47 +76,37 @@ def company_1_yr_plots (selected_companies, industry, fullnames, colours, data):
         plt.show()
 
 def company_close_plots(selected_companies, timeframe, fullnames, data): 
-    company1 = selected_companies[0]
-    company2 = selected_companies[1]    
-    
-    company_df1 = data[timeframe][data[timeframe]['Company'] == company1].copy()
-    company_df2 = data[timeframe][data[timeframe]['Company'] == company2].copy()
+    i=0
+    company_df = data[timeframe][data[timeframe]['Company'] == selected_companies[i]].copy()
     if timeframe == '5y':
         time = '5 year'
     else:
         time = '10 year'
     plt.figure(figsize=(14, 6))
     
-    plt.subplot(1,2,1)
-    plt.plot(company_df1['Close'], label='Close Price', color='powderblue')
-    # calculating and plotting Moving Averages
-    company_df1['SMA_50'] = company_df1['Close'].rolling(window=50).mean()
-    company_df1['SMA_200'] = company_df1['Close'].rolling(window=200).mean()
-    plt.plot(company_df1['SMA_50'], label='50-Day SMA', linestyle='--', color='green')
-    plt.plot(company_df1['SMA_200'], label='200-Day SMA', linestyle='--', color='orange')
-    
-    # plotting Close Prices
-    plt.plot(company_df1['Close'], label='Close Price', color='powderblue')
-    plt.title(f'{fullnames[company1]} - Close Prices ({time})', fontweight='bold')
-    plt.xlabel('Date')
-    plt.ylabel('Close Price')
-    plt.grid(True)
-    #repeating for company 2
-    plt.subplot(1,2,2)
-    plt.plot(company_df2['Close'], label='Close Price', color='powderblue')
-  
-    company_df2['SMA_50'] = company_df2['Close'].rolling(window=50).mean()
-    company_df2['SMA_200'] = company_df2['Close'].rolling(window=200).mean()
-    plt.plot(company_df2['SMA_50'], label='50-Day SMA', linestyle='--', color='green')
-    plt.plot(company_df2['SMA_200'], label='200-Day SMA', linestyle='--', color='orange')
-    
-    plt.title(f'{fullnames[company2]} - Close Prices ({time})', fontweight='bold')
-    plt.xlabel('Date')
-    plt.grid(True)
+    while i < 2: 
+        company_df = data[timeframe][data[timeframe]['Company'] == selected_companies[i]].copy()
+        plt.subplot(1,2,(i+1))
+        plt.plot(company_df['Close'], label='Close Price', color='powderblue')
+        # calculating and plotting Moving Averages
+        company_df['SMA_50'] = company_df['Close'].rolling(window=50).mean()
+        company_df['SMA_200'] = company_df['Close'].rolling(window=200).mean()
+        plt.plot(company_df['SMA_50'], label='50-Day SMA', linestyle='--', color='green')
+        plt.plot(company_df['SMA_200'], label='200-Day SMA', linestyle='--', color='orange')
+        
+        # plotting Close Prices
+        plt.plot(company_df['Close'], label='Close Price', color='powderblue')
+        plt.title(f'{fullnames[selected_companies[i]]} - Close Prices ({time})', fontweight='bold')
+        plt.xlabel('Date')
+        plt.ylabel('Close Price')
+        plt.grid(True)
+        i+=1
+
     plt.legend(framealpha=1.0, fontsize=12, ncols=3, bbox_to_anchor=(0.2,1.2))
-    plt.suptitle(f'{time} view of Close Prices for {fullnames[company1]} & {fullnames[company2]}', fontsize=20, y=1.10)
+    plt.suptitle(f'{time} view of Close Prices for {fullnames[selected_companies[0]]} & {fullnames[selected_companies[1]]}', fontsize=20, y=1.10)
     plt.grid(True)
     plt.show()    
+  
 
 def company_volatility_plots(selected_companies, timeframe, fullnames, data, colours): 
     i=0
@@ -150,10 +140,9 @@ def company_trading_volume_plots(selected_companies, timeframe, fullnames, data)
     else:
         time = '10 year'
     
-    company_df = data[timeframe][data[timeframe]['Company'] == selected_companies[i]].copy()
-
     plt.figure(figsize=(14, 6))
     while i < 2:
+        company_df = data[timeframe][data[timeframe]['Company'] == selected_companies[i]].copy()
         plt.subplot(1,2,(i+1))
         # Plot Volume
         plt.bar(company_df.index, company_df['Volume'], alpha=0.5, label='Volume')

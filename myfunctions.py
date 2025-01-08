@@ -119,88 +119,78 @@ def company_close_plots(selected_companies, timeframe, fullnames, data):
     plt.show()    
 
 def company_volatility_plots(selected_companies, timeframe, fullnames, data, colours): 
-    company1 = selected_companies[0]
-    company2 = selected_companies[1]    
-    
-    company_df1 = data[timeframe][data[timeframe]['Company'] == company1].copy()
-    company_df2 = data[timeframe][data[timeframe]['Company'] == company2].copy()
-    # fetching the colours for the companies
-    colour1 = colours.get(company1)
-    colour2 = colours.get(company2)
+    i=0
     if timeframe == '5y':
         time = '5 year'
     else:
         time = '10 year'
     plt.figure(figsize=(12, 6))
         
-    # Calculate Rolling Volatility for the two companies
-    company_df1['Rolling_Volatility'] = company_df1['Close'].pct_change().rolling(window=30).std() * 100
-    company_df2['Rolling_Volatility'] = company_df2['Close'].pct_change().rolling(window=30).std() * 100
-    
-    # Plot Volatility
-    plt.plot(company_df1['Rolling_Volatility'], label=f'{fullnames[company1]}Rolling Volatility (30 days)', color=colour1)
-    plt.plot(company_df2['Rolling_Volatility'], label=f'{fullnames[company2]}Rolling Volatility (30 days)', color=colour2)
-    plt.xlabel('Date')
-    plt.ylabel('Volatility (%)')
+    while i < 2:
+        company_df = data[timeframe][data[timeframe]['Company'] == selected_companies[i]].copy()
+        colour = colours.get(selected_companies[i])
+        # Calculate Rolling Volatility for the two companies
+        company_df['Rolling_Volatility'] = company_df['Close'].pct_change().rolling(window=30).std() * 100
+        plt.plot(company_df['Rolling_Volatility'], label=f'{fullnames[selected_companies[i]]}Rolling Volatility (30 days)', color=colour)
+        plt.xlabel('Date')
+        plt.ylabel('Volatility (%)')
+        i+=1
+
+
     plt.legend(framealpha=1.0, fontsize=12)
-    plt.title(f'{fullnames[company1]} & {fullnames[company2]} - Rolling Volatility ({time})', fontweight='bold')
+    plt.title(f'{fullnames[selected_companies[0]]} & {fullnames[selected_companies[1]]} - Rolling Volatility ({time})', fontweight='bold')
     plt.grid(True)
     plt.show()
 
+
 def company_trading_volume_plots(selected_companies, timeframe, fullnames, data): 
-    company1 = selected_companies[0]
-    company2 = selected_companies[1]    
-    
-    company_df1 = data[timeframe][data[timeframe]['Company'] == company1].copy()
-    company_df2 = data[timeframe][data[timeframe]['Company'] == company2].copy()
+    i=0
     if timeframe == '5y':
         time = '5 year'
     else:
         time = '10 year'
+    
+    company_df = data[timeframe][data[timeframe]['Company'] == selected_companies[i]].copy()
+
     plt.figure(figsize=(14, 6))
-    
-    plt.subplot(1,2,1)
-    # Plot Volume
-    plt.bar(company_df1.index, company_df1['Volume'], alpha=0.5, label='Volume')
-    plt.plot(company_df1['Volume'].rolling(window=20).mean(), color='green', label='20-Day Avg Volume')
-    
-    plt.title(f'{fullnames[company1]} - Trading Volume ({time})', fontweight='bold')
-    plt.xlabel('Date')
-    plt.ylabel('Volume')
-    plt.grid(True)
-    plt.subplot(1,2,2)
-    # Plot Volume
-    plt.bar(company_df2.index, company_df2['Volume'], alpha=0.5, label='Volume')
-    plt.plot(company_df2['Volume'].rolling(window=20).mean(), color='green', label='20-Day Avg Volume')
-    
-    plt.title(f'{fullnames[company2]} - Trading Volume ({time})', fontweight='bold')
-    plt.xlabel('Date')
+    while i < 2:
+        plt.subplot(1,2,(i+1))
+        # Plot Volume
+        plt.bar(company_df.index, company_df['Volume'], alpha=0.5, label='Volume')
+        plt.plot(company_df['Volume'].rolling(window=20).mean(), color='green', label='20-Day Avg Volume')
+
+        plt.title(f'{fullnames[selected_companies[i]]} - Trading Volume ({time})', fontweight='bold')
+        plt.xlabel('Date')
+        plt.ylabel('Volume')
+        plt.grid(True)
+
+        i += 1
+
     plt.legend(framealpha=1.0, fontsize=12, ncols=3, bbox_to_anchor=(0.3,1.2))
-    plt.suptitle(f'{time} view Trading Volume of {fullnames[company1]} & {fullnames[company2]}', fontsize=20, y=1.10)
+    plt.suptitle(f'{time} view Trading Volume of {fullnames[selected_companies[0]]} & {fullnames[selected_companies[1]]}', fontsize=20, y=1.10)
     plt.grid(True)
     plt.show()
 
 def company_cumulative_returns(selected_companies, timeframe, data, fullnames, colours):
-    company1 = selected_companies[0]
-    company2 = selected_companies[1]
-    # Fetch the color for the company
-    color1 = colours.get(company1)
-    color2 = colours.get(company2)
-
+    i = 0
     if timeframe == '5y':
         time = '5 year'
     else:
         time = '10 year'
+        
+    while i < 2: 
+            company1 = selected_companies[i]
+                # Fetch the color for the company
+            color = colours.get(selected_companies[i])
 
-    company_df1 = data[timeframe][data[timeframe]['Company'] == company1].copy()
-    # Normalize returns
-    cumulative_returns1 = (1 + company_df1['Close'].pct_change()).cumprod()
-    plt.plot(cumulative_returns1, label=f'{company1} Cumulative Returns', color=color1)
-    company_df2 = data[timeframe][data[timeframe]['Company'] == company2].copy()
-    # Normalize returns
-    cumulative_returns2 = (1 + company_df2['Close'].pct_change()).cumprod()
-    plt.plot(cumulative_returns2, label=f'{company2} Cumulative Returns', color=color2)
-    plt.title(f'{fullnames[company1]} & {fullnames[company2]}- Cumulative Returns ({time})')
+
+            company_df = data[timeframe][data[timeframe]['Company'] == selected_companies[i]].copy()
+            # Normalize returns
+            cumulative_returns1 = (1 + company_df['Close'].pct_change()).cumprod()
+            plt.plot(cumulative_returns1, label=f'{company1} Cumulative Returns', color=color)
+            i += 1
+
+    plt.title(f'{fullnames[selected_companies[0]]} & {fullnames[selected_companies[1]]}- Cumulative Returns ({time})')
     plt.xlabel('Date')
     plt.ylabel('Cumulative Returns')
     plt.grid(True)

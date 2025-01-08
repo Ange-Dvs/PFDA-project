@@ -185,3 +185,35 @@ def company_cumulative_returns(selected_companies, timeframe, data, fullnames, c
     plt.grid(True)
     plt.legend()
     plt.show()
+
+def industry_close_prices_plot(data, time, colours): 
+    # filtering the combinded data in the dataframe to just select the data for the 1-year timeframe
+    filtered_df = data[data['Timeframe'] == time]
+
+# creating a copy for plotting, so the original data remains unchanged
+    plot_df = filtered_df.copy()
+    
+    # applying interpolation to handle missing values in the 'Close' column
+    plot_df['Close'] = plot_df['Close'].interpolate(method='linear')  # Interpolating missing values based on the prior and following values entered
+
+    # creating the plot
+    plt.figure(figsize=(12, 6))
+
+    # looping through each industry in the 1-year data by each unique value in the 'Industry' column
+    for industry in plot_df['Industry'].unique():
+        # filtering data for the specified industry
+        industry_data = plot_df[plot_df['Industry'] == industry]
+        
+        # getting the colour from the colours dictionary specified for that industry
+        color = colours.get(industry)
+
+        # ploting the data using the datetime index
+        plt.plot(industry_data.index, industry_data['Close'], label=industry, color=color)
+
+    # Add labels, title, and legend
+    plt.xlabel('Date')
+    plt.ylabel('Mean Close Price')
+    plt.title(f'Industry Performance Over {time} (Mean Daily Close Price)')
+    plt.legend()
+    plt.grid(True)
+    plt.show()

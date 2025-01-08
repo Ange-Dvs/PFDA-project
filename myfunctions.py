@@ -70,23 +70,25 @@ def company_1_yr_plots (selected_companies, industry, fullnames, colours, data):
         plt.xlabel('Date')
         plt.ylabel('Volume')
         plt.grid(True)
-
-
+        
         # Add the main title
         plt.suptitle(f'1 year view of {fullname1} & {fullname2}', fontsize=20)
         plt.show()
 
-def company_mid_term_close_plots(selected_companies, fullnames, data): 
+def company_close_plots(selected_companies, timeframe, fullnames, data): 
     company1 = selected_companies[0]
     company2 = selected_companies[1]    
     
-    company_df1 = data['5y'][data['5y']['Company'] == company1].copy()
-    company_df2 = data['5y'][data['5y']['Company'] == company2].copy()
+    company_df1 = data[timeframe][data[timeframe]['Company'] == company1].copy()
+    company_df2 = data[timeframe][data[timeframe]['Company'] == company2].copy()
+    if timeframe == '5y':
+        time = '5 year'
+    else:
+        time = '10 year'
     plt.figure(figsize=(14, 6))
     
     plt.subplot(1,2,1)
     plt.plot(company_df1['Close'], label='Close Price', color='powderblue')
-
     # calculating and plotting Moving Averages
     company_df1['SMA_50'] = company_df1['Close'].rolling(window=50).mean()
     company_df1['SMA_200'] = company_df1['Close'].rolling(window=200).mean()
@@ -95,45 +97,40 @@ def company_mid_term_close_plots(selected_companies, fullnames, data):
     
     # plotting Close Prices
     plt.plot(company_df1['Close'], label='Close Price', color='powderblue')
-
-    plt.title(f'{fullnames[company1]} - Close Prices (5-Year)', fontweight='bold')
+    plt.title(f'{fullnames[company1]} - Close Prices ({time})', fontweight='bold')
     plt.xlabel('Date')
     plt.ylabel('Close Price')
     plt.grid(True)
-
     #repeating for company 2
     plt.subplot(1,2,2)
     plt.plot(company_df2['Close'], label='Close Price', color='powderblue')
-
   
     company_df2['SMA_50'] = company_df2['Close'].rolling(window=50).mean()
     company_df2['SMA_200'] = company_df2['Close'].rolling(window=200).mean()
     plt.plot(company_df2['SMA_50'], label='50-Day SMA', linestyle='--', color='green')
     plt.plot(company_df2['SMA_200'], label='200-Day SMA', linestyle='--', color='orange')
     
-    plt.title(f'{fullnames[company2]} - Close Prices (5-Year)', fontweight='bold')
+    plt.title(f'{fullnames[company2]} - Close Prices ({time})', fontweight='bold')
     plt.xlabel('Date')
     plt.grid(True)
-
-
     plt.legend(framealpha=1.0, fontsize=12, ncols=3, bbox_to_anchor=(0.2,1.2))
-    plt.suptitle(f'5 year view of Close Prices for {fullnames[company1]} & {fullnames[company2]}', fontsize=20, y=1.10)
+    plt.suptitle(f'{time} view of Close Prices for {fullnames[company1]} & {fullnames[company2]}', fontsize=20, y=1.10)
     plt.grid(True)
-    plt.show()
+    plt.show()    
 
-    
-def company_mid_term_volatility_plots(selected_companies, fullnames, data, colours): 
+def company_volatility_plots(selected_companies, timeframe, fullnames, data, colours): 
     company1 = selected_companies[0]
     company2 = selected_companies[1]    
     
-    company_df1 = data['5y'][data['5y']['Company'] == company1].copy()
-    company_df2 = data['5y'][data['5y']['Company'] == company2].copy()
-
+    company_df1 = data[timeframe][data[timeframe]['Company'] == company1].copy()
+    company_df2 = data[timeframe][data[timeframe]['Company'] == company2].copy()
     # fetching the colours for the companies
     colour1 = colours.get(company1)
     colour2 = colours.get(company2)
-
-
+    if timeframe == '5y':
+        time = '5 year'
+    else:
+        time = '10 year'
     plt.figure(figsize=(12, 6))
         
     # Calculate Rolling Volatility for the two companies
@@ -143,22 +140,23 @@ def company_mid_term_volatility_plots(selected_companies, fullnames, data, colou
     # Plot Volatility
     plt.plot(company_df1['Rolling_Volatility'], label=f'{fullnames[company1]}Rolling Volatility (30 days)', color=colour1)
     plt.plot(company_df2['Rolling_Volatility'], label=f'{fullnames[company2]}Rolling Volatility (30 days)', color=colour2)
-
-
     plt.xlabel('Date')
     plt.ylabel('Volatility (%)')
     plt.legend(framealpha=1.0, fontsize=12)
-    plt.title(f'{fullnames[company1]} & {fullnames[company2]} - Rolling Volatility (5-Year)', fontweight='bold')
-
+    plt.title(f'{fullnames[company1]} & {fullnames[company2]} - Rolling Volatility ({time})', fontweight='bold')
     plt.grid(True)
     plt.show()
 
-def company_mid_term_trading_volume_plots(selected_companies, fullnames, data): 
+def company_trading_volume_plots(selected_companies, timeframe, fullnames, data): 
     company1 = selected_companies[0]
     company2 = selected_companies[1]    
     
-    company_df1 = data['5y'][data['5y']['Company'] == company1].copy()
-    company_df2 = data['5y'][data['5y']['Company'] == company2].copy()
+    company_df1 = data[timeframe][data[timeframe]['Company'] == company1].copy()
+    company_df2 = data[timeframe][data[timeframe]['Company'] == company2].copy()
+    if timeframe == '5y':
+        time = '5 year'
+    else:
+        time = '10 year'
     plt.figure(figsize=(14, 6))
     
     plt.subplot(1,2,1)
@@ -166,19 +164,19 @@ def company_mid_term_trading_volume_plots(selected_companies, fullnames, data):
     plt.bar(company_df1.index, company_df1['Volume'], alpha=0.5, label='Volume')
     plt.plot(company_df1['Volume'].rolling(window=20).mean(), color='green', label='20-Day Avg Volume')
     
-    plt.title(f'{fullnames[company1]} - Trading Volume (5-Year)', fontweight='bold')
+    plt.title(f'{fullnames[company1]} - Trading Volume ({time})', fontweight='bold')
     plt.xlabel('Date')
     plt.ylabel('Volume')
     plt.grid(True)
-
     plt.subplot(1,2,2)
+    # Plot Volume
     plt.bar(company_df2.index, company_df2['Volume'], alpha=0.5, label='Volume')
     plt.plot(company_df2['Volume'].rolling(window=20).mean(), color='green', label='20-Day Avg Volume')
     
-    plt.title(f'{fullnames[company2]} - Trading Volume (5-Year)', fontweight='bold')
+    plt.title(f'{fullnames[company2]} - Trading Volume ({time})', fontweight='bold')
     plt.xlabel('Date')
     plt.legend(framealpha=1.0, fontsize=12, ncols=3, bbox_to_anchor=(0.3,1.2))
-    plt.suptitle(f'5 year view Trading Volume of {fullnames[company1]} & {fullnames[company2]}', fontsize=20, y=1.10)
+    plt.suptitle(f'{time} view Trading Volume of {fullnames[company1]} & {fullnames[company2]}', fontsize=20, y=1.10)
     plt.grid(True)
     plt.show()
 

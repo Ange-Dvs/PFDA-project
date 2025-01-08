@@ -120,3 +120,89 @@ def company_mid_term_close_plots(selected_companies, fullnames, data):
     plt.suptitle(f'5 year view of Close Prices for {fullnames[company1]} & {fullnames[company2]}', fontsize=20, y=1.10)
     plt.grid(True)
     plt.show()
+
+    
+def company_mid_term_volatility_plots(selected_companies, fullnames, data, colours): 
+    company1 = selected_companies[0]
+    company2 = selected_companies[1]    
+    
+    company_df1 = data['5y'][data['5y']['Company'] == company1].copy()
+    company_df2 = data['5y'][data['5y']['Company'] == company2].copy()
+
+    # fetching the colours for the companies
+    colour1 = colours.get(company1)
+    colour2 = colours.get(company2)
+
+
+    plt.figure(figsize=(12, 6))
+        
+    # Calculate Rolling Volatility for the two companies
+    company_df1['Rolling_Volatility'] = company_df1['Close'].pct_change().rolling(window=30).std() * 100
+    company_df2['Rolling_Volatility'] = company_df2['Close'].pct_change().rolling(window=30).std() * 100
+    
+    # Plot Volatility
+    plt.plot(company_df1['Rolling_Volatility'], label=f'{fullnames[company1]}Rolling Volatility (30 days)', color=colour1)
+    plt.plot(company_df2['Rolling_Volatility'], label=f'{fullnames[company2]}Rolling Volatility (30 days)', color=colour2)
+
+
+    plt.xlabel('Date')
+    plt.ylabel('Volatility (%)')
+    plt.legend(framealpha=1.0, fontsize=12)
+    plt.title(f'{fullnames[company1]} & {fullnames[company2]} - Rolling Volatility (5-Year)', fontweight='bold')
+
+    plt.grid(True)
+    plt.show()
+
+def company_mid_term_trading_volume_plots(selected_companies, fullnames, data): 
+    company1 = selected_companies[0]
+    company2 = selected_companies[1]    
+    
+    company_df1 = data['5y'][data['5y']['Company'] == company1].copy()
+    company_df2 = data['5y'][data['5y']['Company'] == company2].copy()
+    plt.figure(figsize=(14, 6))
+    
+    plt.subplot(1,2,1)
+    # Plot Volume
+    plt.bar(company_df1.index, company_df1['Volume'], alpha=0.5, label='Volume')
+    plt.plot(company_df1['Volume'].rolling(window=20).mean(), color='green', label='20-Day Avg Volume')
+    
+    plt.title(f'{fullnames[company1]} - Trading Volume (5-Year)', fontweight='bold')
+    plt.xlabel('Date')
+    plt.ylabel('Volume')
+    plt.grid(True)
+
+    plt.subplot(1,2,2)
+    plt.bar(company_df2.index, company_df2['Volume'], alpha=0.5, label='Volume')
+    plt.plot(company_df2['Volume'].rolling(window=20).mean(), color='green', label='20-Day Avg Volume')
+    
+    plt.title(f'{fullnames[company2]} - Trading Volume (5-Year)', fontweight='bold')
+    plt.xlabel('Date')
+    plt.legend(framealpha=1.0, fontsize=12, ncols=3, bbox_to_anchor=(0.3,1.2))
+    plt.suptitle(f'5 year view Trading Volume of {fullnames[company1]} & {fullnames[company2]}', fontsize=20, y=1.10)
+    plt.grid(True)
+    plt.show()
+
+def company_mid_term_cumulative_returns(selected_companies, data, fullnames, colours):
+    company1 = selected_companies[0]
+    company2 = selected_companies[1]
+
+    # Fetch the color for the company
+    color1 = colours.get(company1)
+    color2 = colours.get(company2)
+
+    company_df1 = data['5y'][data['5y']['Company'] == company1].copy()
+    # Normalize returns
+    cumulative_returns1 = (1 + company_df1['Close'].pct_change()).cumprod()
+    plt.plot(cumulative_returns1, label=f'{company1} Cumulative Returns', color=color1)
+
+    company_df2 = data['5y'][data['5y']['Company'] == company2].copy()
+    # Normalize returns
+    cumulative_returns2 = (1 + company_df2['Close'].pct_change()).cumprod()
+    plt.plot(cumulative_returns2, label=f'{company2} Cumulative Returns', color=color2)
+
+    plt.title(f'{fullnames[company1]} & {fullnames[company2]}- Cumulative Returns (5-Year)')
+    plt.xlabel('Date')
+    plt.ylabel('Cumulative Returns')
+    plt.grid(True)
+    plt.legend()
+    plt.show()

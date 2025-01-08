@@ -182,25 +182,27 @@ def company_mid_term_trading_volume_plots(selected_companies, fullnames, data):
     plt.grid(True)
     plt.show()
 
-def company_mid_term_cumulative_returns(selected_companies, data, fullnames, colours):
+def company_cumulative_returns(selected_companies, timeframe, data, fullnames, colours):
     company1 = selected_companies[0]
     company2 = selected_companies[1]
-
     # Fetch the color for the company
     color1 = colours.get(company1)
     color2 = colours.get(company2)
 
-    company_df1 = data['5y'][data['5y']['Company'] == company1].copy()
+    if timeframe == '5y':
+        time = '5 year'
+    else:
+        time = '10 year'
+
+    company_df1 = data[timeframe][data[timeframe]['Company'] == company1].copy()
     # Normalize returns
     cumulative_returns1 = (1 + company_df1['Close'].pct_change()).cumprod()
     plt.plot(cumulative_returns1, label=f'{company1} Cumulative Returns', color=color1)
-
-    company_df2 = data['5y'][data['5y']['Company'] == company2].copy()
+    company_df2 = data[timeframe][data[timeframe]['Company'] == company2].copy()
     # Normalize returns
     cumulative_returns2 = (1 + company_df2['Close'].pct_change()).cumprod()
     plt.plot(cumulative_returns2, label=f'{company2} Cumulative Returns', color=color2)
-
-    plt.title(f'{fullnames[company1]} & {fullnames[company2]}- Cumulative Returns (5-Year)')
+    plt.title(f'{fullnames[company1]} & {fullnames[company2]}- Cumulative Returns ({time})')
     plt.xlabel('Date')
     plt.ylabel('Cumulative Returns')
     plt.grid(True)

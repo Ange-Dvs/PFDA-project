@@ -114,3 +114,6 @@ https://en.wikipedia.org/wiki/List_of_S%26P_500_companies
 Understanding SMA: 
 &nbsp;&nbsp;&nbsp;&nbsp;"A simple moving average (SMA) is a simple trading indicator to calculate and use. To calculate it, you add a number of prices together and then divide by the number of prices you added. An example makes the SMA clearer."
 &nbsp;&nbsp;&nbsp;&nbsp;https://www.dummies.com/article/business-careers-money/personal-finance/investing/general-investing/how-to-calculate-simple-moving-average-in-trading-160018/
+
+Understanding .cumsum():
+&nbsp;&nbsp;&nbsp;&nbsp;https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.cumsum.html

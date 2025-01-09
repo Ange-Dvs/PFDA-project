@@ -95,7 +95,7 @@ def company_close_plots(selected_companies, timeframe, fullnames, data):
         plt.plot(company_df['SMA_200'], label='200-Day SMA', linestyle='--', color='orange')
         
         # plotting Close Prices
-        plt.plot(company_df['Close'], label='Close Price', color='powderblue')
+        plt.plot(company_df['Close'], color='powderblue')
         plt.title(f'{fullnames[selected_companies[i]]} - Close Prices ({time})', fontweight='bold')
         plt.xlabel('Date')
         plt.ylabel('Close Price')
@@ -105,8 +105,7 @@ def company_close_plots(selected_companies, timeframe, fullnames, data):
     plt.legend(framealpha=1.0, fontsize=12, ncols=3, bbox_to_anchor=(0.2,1.2))
     plt.suptitle(f'{time} view of Close Prices for {fullnames[selected_companies[0]]} & {fullnames[selected_companies[1]]}', fontsize=20, y=1.10)
     plt.grid(True)
-    plt.show()    
-  
+    plt.show()
 
 def company_volatility_plots(selected_companies, timeframe, fullnames, data, colours): 
     i=0
@@ -210,10 +209,48 @@ def industry_close_prices_plot(data, time, colours):
         # ploting the data using the datetime index
         plt.plot(industry_data.index, industry_data['Close'], label=industry, color=color)
 
-    # Add labels, title, and legend
+    # customising the plot, title & labels
     plt.xlabel('Date')
     plt.ylabel('Mean Close Price')
     plt.title(f'Industry Performance Over {time} (Mean Daily Close Price)')
     plt.legend()
     plt.grid(True)
+    plt.show()
+
+def industry_close_SMA_plots(selected_industries, timeframe, data): 
+    if timeframe == '5y':
+        time = '5 year'
+    else:
+        time = '10 year'
+
+    # dynamically determining the number of subplots based on the number of selected industries
+    num_industries = len(selected_industries)
+    plt.figure(figsize=(14, 6))
+
+    for i, industry in enumerate(selected_industries): 
+        # filtering the data for the selected industry
+        industry_df = data[timeframe][data[timeframe]['Industry'] == industry].copy()
+
+        # calculating the average close price for the industry
+        industry_avg = industry_df.groupby('Date')['Close'].mean()
+        
+        # calculating the Moving Averages for the average close price
+        industry_avg_SMA_50 = industry_avg.rolling(window=50).mean()
+        industry_avg_SMA_200 = industry_avg.rolling(window=200).mean()
+
+        # plotting the data
+        plt.subplot(1, num_industries, i + 1)  # Adjust subplots dynamically
+        plt.plot(industry_avg, label='Avg Close Price', color='powderblue')
+        plt.plot(industry_avg_SMA_50, label='50-Day SMA', linestyle='--', color='green')
+        plt.plot(industry_avg_SMA_200, label='200-Day SMA', linestyle='--', color='orange')
+
+        # customising the plot, title & labels
+        plt.title(f'{industry} - Avg Close Prices ({time})', fontweight='bold')
+        plt.xlabel('Date')
+        plt.ylabel('Close Price')
+        plt.grid(True)
+    
+    plt.tight_layout()
+    plt.suptitle('5-Year Trends: Close Prices & Moving Averages', y=1.15, fontsize=24)
+    plt.legend(framealpha=1.0, fontsize=12, ncols=3, bbox_to_anchor=(0.4, 1.15))
     plt.show()

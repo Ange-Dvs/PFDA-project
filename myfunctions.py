@@ -251,6 +251,6 @@ def industry_close_SMA_plots(selected_industries, timeframe, data):
         plt.grid(True)
     
     plt.tight_layout()
-    plt.suptitle('5-Year Trends: Close Prices & Moving Averages', y=1.15, fontsize=24)
+    plt.suptitle(f'{time} Trends: Close Prices & Moving Averages', y=1.15, fontsize=24)
     plt.legend(framealpha=1.0, fontsize=12, ncols=3, bbox_to_anchor=(0.4, 1.15))
     plt.show()

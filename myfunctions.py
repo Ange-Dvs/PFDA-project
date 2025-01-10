@@ -1,5 +1,7 @@
 # importing libaries needed for use within the functions
 import matplotlib.pyplot as plt
+import seaborn as sns
+
 
 def company_1_yr_plots (selected_companies, industry, fullnames, colours, data):
     # Loop through only the selected companies
@@ -216,7 +218,7 @@ def industry_close_prices_plot(data, time, colours):
     plt.legend()
     plt.grid(True)
     plt.show()
-
+ 
 def industry_close_SMA_plots(selected_industries, timeframe, data): 
     if timeframe == '5y':
         time = '5 year'
@@ -253,4 +255,68 @@ def industry_close_SMA_plots(selected_industries, timeframe, data):
     plt.tight_layout()
     plt.suptitle(f'{time} Trends: Close Prices & Moving Averages', y=1.15, fontsize=24)
     plt.legend(framealpha=1.0, fontsize=12, ncols=3, bbox_to_anchor=(0.4, 1.15))
+    plt.show()
+
+
+def industry_monthly_return_trends(industry_dataframes, colours, industries_to_compare):
+
+    # List to store processed industry DataFrames
+    industry_daily_list = []
+
+    # Loop through each industry to calculate daily returns and store in the list
+    for industry in industries_to_compare:
+        # Filtering for the current industry
+        industry_df = industry_dataframes['5y'][industry_dataframes['5y']['Industry'] == industry].copy()
+
+        # Resampling only numeric columns
+        industry_numeric = industry_df.select_dtypes(include='number')
+        industry_daily = industry_numeric.resample('D').mean()
+
+        # Adding back the 'Industry' column
+        industry_daily['Industry'] = industry
+
+        # Calculating Daily Returns
+        industry_daily['Daily_Returns'] = industry_daily['Close'].pct_change(fill_method=None)
+
+        # Extracting the month for seasonality analysis
+        industry_daily['Month'] = industry_daily.index.month
+
+        # Appending the processed DataFrame to the list
+        industry_daily_list.append(industry_daily)
+
+    # --- Plotting the Side-by-Side Box Plots with Fixed Y-Axis Limits ---
+    plt.figure(figsize=(18, 7))
+
+    # Loop through the processed data for plotting
+    for i, industry_daily in enumerate(industry_daily_list):
+        # Create subplot for each industry
+        plt.subplot(1, 2, i + 1)
+
+        # Create the box plot
+        sns.boxplot(data=industry_daily, x='Month', y='Daily_Returns', color=colours.get(industries_to_compare[i]))
+
+        # Customize x-axis with month names
+        plt.xticks(ticks=range(0, 12), labels=[
+            'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+        ])
+
+        # Add titles and labels
+        plt.title(f'{industries_to_compare[i]}', fontsize=16)
+        plt.xlabel('Month', fontsize=18, x=1.02)
+        plt.ylabel('Daily Returns', fontsize=18)
+        plt.ylim(-0.15, 0.15)  # Fixed y-axis limits for both plots
+        plt.grid(axis='y', linestyle='--', alpha=0.7)
+
+        # Hide y-ticks on the second plot but keep the grid
+        if i == 1:
+            plt.tick_params(axis='both', left=False, labelleft=False)
+            plt.xlabel(None)
+            plt.ylabel(None)
+
+    # Adjust layout to prevent overlap
+    plt.tight_layout()
+    plt.suptitle('Monthly Return Trends (5-Year)', fontsize=20, y=1.03)
+
+    # Show the combined plot
     plt.show()

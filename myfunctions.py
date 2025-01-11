@@ -1,6 +1,7 @@
 # importing libaries needed for use within the functions
 import matplotlib.pyplot as plt
 import seaborn as sns
+import pandas as pd
 
 
 def company_1_yr_plots (selected_companies, industry, fullnames, colours, data):
@@ -325,7 +326,7 @@ def company_stats(industry_dataframes, timeframe, ticker, value_to_check, year_t
     # filtering the stock data in 2024 and sort by date
     first_comp_2024_entry = industry_dataframes[timeframe][
         (industry_dataframes[timeframe]['Company'] == ticker) & 
-        (industry_dataframes[timeframe].index >= '2024-01-01')
+        (industry_dataframes[timeframe].index >= pd.to_datetime(f'{year_to_check}-01-01'))
     ].sort_index().iloc[0]
 
     # displaying the first entry and closing price
@@ -334,8 +335,10 @@ def company_stats(industry_dataframes, timeframe, ticker, value_to_check, year_t
     # last entry for the company in 2024
     last_2024_entry = industry_dataframes[timeframe][
         (industry_dataframes[timeframe]['Company'] == ticker) & 
-        (industry_dataframes[timeframe].index >= '2024-12-31')
-    ].sort_index().iloc[0]
+        (industry_dataframes[timeframe].index == industry_dataframes[timeframe][
+            industry_dataframes[timeframe].index.year == year_to_check
+        ].index.max())].sort_index().iloc[0]
+
 
     print(f'Last {ticker} Entry in {year_to_check}:\n', last_2024_entry)
 
@@ -362,15 +365,25 @@ def company_stats(industry_dataframes, timeframe, ticker, value_to_check, year_t
     ][value_to_check].max()
 
     # Second-highest closing price for company in 2024
-    second_highest_close_aapl_2024 = industry_dataframes[timeframe][
+    second_highest_close_comp_2024 = industry_dataframes[timeframe][
         (industry_dataframes[timeframe]['Company'] == ticker) & 
         (industry_dataframes[timeframe].index.year == year_to_check)
     ].sort_values(by=value_to_check, ascending=False).iloc[1]
 
-    second_highest_close_date = second_highest_close_aapl_2024.name
-    second_highest_close_value = second_highest_close_aapl_2024[value_to_check]
+       # Second-highest closing price for company in 2024
+    third_highest_close_comp_2024 = industry_dataframes[timeframe][
+        (industry_dataframes[timeframe]['Company'] == ticker) & 
+        (industry_dataframes[timeframe].index.year == year_to_check)
+    ].sort_values(by=value_to_check, ascending=False).iloc[3]
+
+    second_highest_close_date = second_highest_close_comp_2024.name
+    second_highest_close_value = second_highest_close_comp_2024[value_to_check]
+
+    third_highest_close_date   = third_highest_close_comp_2024.name
+    third_highest_close_value =   third_highest_close_comp_2024[value_to_check]
 
     print(f'Second-Highest {value_to_check} for {ticker} in {year_to_check}: {second_highest_close_value:.2f} on {second_highest_close_date.date()}')
+    print(f'Third -Highest {value_to_check} for {ticker} in {year_to_check}: {third_highest_close_value:.2f} on {third_highest_close_date.date()}\n')
 
 
     print(f'Max {ticker} {value_to_check} in {year_to_check}: {max_close_comp_2024[1]:.2f} on {max_close_comp_2024[0].date()}')

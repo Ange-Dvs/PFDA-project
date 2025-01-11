@@ -382,11 +382,9 @@ def company_stats(industry_dataframes, timeframe, ticker, value_to_check, year_t
     third_highest_close_date   = third_highest_close_comp_2024.name
     third_highest_close_value =   third_highest_close_comp_2024[value_to_check]
 
+    print(f'Max {ticker} {value_to_check} in {year_to_check}: {max_close_comp_2024[1]:.2f} on {max_close_comp_2024[0].date()}')
     print(f'Second-Highest {value_to_check} for {ticker} in {year_to_check}: {second_highest_close_value:.2f} on {second_highest_close_date.date()}')
     print(f'Third -Highest {value_to_check} for {ticker} in {year_to_check}: {third_highest_close_value:.2f} on {third_highest_close_date.date()}\n')
-
-
-    print(f'Max {ticker} {value_to_check} in {year_to_check}: {max_close_comp_2024[1]:.2f} on {max_close_comp_2024[0].date()}')
 
     # getting the max closing price and its date for the company in 2024
     min_close_comp_2024 = industry_dataframes[timeframe][

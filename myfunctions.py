@@ -320,3 +320,68 @@ def industry_monthly_return_trends(industry_dataframes, colours, industries_to_c
 
     # Show the combined plot
     plt.show()
+
+def company_stats(industry_dataframes, timeframe, ticker, value_to_check): 
+    # filtering the stock data in 2024 and sort by date
+    first_comp_2024_entry = industry_dataframes[timeframe][
+        (industry_dataframes[timeframe]['Company'] == ticker) & 
+        (industry_dataframes[timeframe].index >= '2024-01-01')
+    ].sort_index().iloc[0]
+
+    # displaying the first entry and closing price
+    print(f'First {ticker} Entry in 2024:\n{first_comp_2024_entry}\n')
+    print(f'First {ticker} Volume in 2024: {first_comp_2024_entry[value_to_check]:.2f}')
+    # last entry for the company in 2024
+    last_2024_entry = industry_dataframes[timeframe][
+        (industry_dataframes[timeframe]['Company'] == ticker) & 
+        (industry_dataframes[timeframe].index >= '2024-12-29')
+    ].sort_index().iloc[0]
+
+    print(f'Last {ticker} Entry in 2024:\n', last_2024_entry)
+
+    # latest entry for company along with the latest closing price
+    latest_comp_entry = industry_dataframes[timeframe][
+        (industry_dataframes[timeframe]['Company'] == ticker)
+    ].sort_index().iloc[-1]
+
+    # extracting the latest entry for the specified value to check
+    latest_close_price = latest_comp_entry[value_to_check]
+
+    print(f'Latest {ticker} Entry:\n{latest_comp_entry}\n')
+    print(f'Latest {ticker} {value_to_check}: {latest_close_price:.2f}')
+
+    print(f'Latest {ticker} Entry:\n', latest_comp_entry)
+
+    # getting the max relevant value and its date for the company in 2024
+    max_close_comp_2024 = industry_dataframes[timeframe][
+        (industry_dataframes[timeframe]['Company'] == ticker) & 
+        (industry_dataframes[timeframe].index.year == 2024)
+    ][value_to_check].idxmax(), industry_dataframes[timeframe][
+        (industry_dataframes[timeframe]['Company'] == ticker) & 
+        (industry_dataframes[timeframe].index.year == 2024)
+    ][value_to_check].max()
+
+    # Second-highest closing price for company in 2024
+    second_highest_close_aapl_2024 = industry_dataframes[timeframe][
+        (industry_dataframes[timeframe]['Company'] == ticker) & 
+        (industry_dataframes[timeframe].index.year == 2024)
+    ].sort_values(by=value_to_check, ascending=False).iloc[1]
+
+    second_highest_close_date = second_highest_close_aapl_2024.name
+    second_highest_close_value = second_highest_close_aapl_2024[value_to_check]
+
+    print(f'Second-Highest {value_to_check} for {ticker} in 2024:{second_highest_close_value:.2f} on {second_highest_close_date.date()}')
+
+
+    print(f'Max {ticker}  {value_to_check} in 2024: {max_close_comp_2024[1]:.2f} on {max_close_comp_2024[0].date()}')
+
+    # getting the max closing price and its date for the company in 2024
+    min_close_comp_2024 = industry_dataframes[timeframe][
+        (industry_dataframes[timeframe]['Company'] == ticker) & 
+        (industry_dataframes[timeframe].index.year == 2024)
+    ][value_to_check].idxmin(), industry_dataframes[timeframe][
+        (industry_dataframes[timeframe]['Company'] == ticker) & 
+        (industry_dataframes[timeframe].index.year == 2024)
+    ][value_to_check].min()
+
+    print(f'Min {ticker} {value_to_check} in 2024: {min_close_comp_2024[1]:.2f} on {min_close_comp_2024[0].date()}')

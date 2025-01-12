@@ -4,24 +4,22 @@ import seaborn as sns
 import pandas as pd
 
 
-def company_1_yr_plots (selected_companies, industry, fullnames, colours, data):
-    # Loop through only the selected companies
+def company_1_yr_plots (selected_companies, fullnames, colours, data):
+        # lopping through only the companies listed as selected companies
         company1 = selected_companies[0]
         company2 = selected_companies[1]
 
         fullname1 = fullnames.get(company1)
         fullname2 = fullnames.get(company2)
 
-        # Filter the data for the selected company
+        # filtering the data for the selected companies
         company_df1 = data['1y'][data['1y']['Company'] == company1].copy()
-                # Filter the data for the selected company
         company_df2 = data['1y'][data['1y']['Company'] == company2].copy()
-               # Fetch the color for the company
+        # fetching the colour for the companies
         color1 = colours.get(company1)
-         # Fetch the color for the company
         color2 = colours.get(company2)
 
-        # Set up the figure size
+        # setting up the figure size
         plt.figure(figsize=(20, 10))
 
         # Subplot 1: Close Price Trends
@@ -49,7 +47,7 @@ def company_1_yr_plots (selected_companies, industry, fullnames, colours, data):
         plt.ylabel('Volume')
         plt.grid(True)
 
-        # Subplot 1: Close Price Trends
+        # Subplot 4: Close Price Trends
         plt.subplot(2, 3, 4)
         plt.plot(company_df2['Close'], color=color2)
         plt.title(f'{fullname2} Close Price Trends')
@@ -57,7 +55,7 @@ def company_1_yr_plots (selected_companies, industry, fullnames, colours, data):
         plt.ylabel('Close Price')
         plt.grid(True)
 
-        # Subplot 2: Volatility Trends
+        # Subplot 5: Volatility Trends
         plt.subplot(2, 3, 5)
         company_df2['Volatility'] = (((company_df2['High'] - company_df2['Low']) / company_df2['Low']) * 100)
         plt.plot(company_df2['Volatility'], color=color2)
@@ -66,7 +64,7 @@ def company_1_yr_plots (selected_companies, industry, fullnames, colours, data):
         plt.ylabel('Volatility (%)')
         plt.grid(True)
 
-        # Subplot 3: Volume Trends
+        # Subplot 6: Volume Trends
         plt.subplot(2, 3, 6)
         plt.plot(company_df2['Volume'], color=color2)
         plt.title(f'{fullname2} Volume Trends')
@@ -74,124 +72,184 @@ def company_1_yr_plots (selected_companies, industry, fullnames, colours, data):
         plt.ylabel('Volume')
         plt.grid(True)
         
-        # Add the main title
+        # adding the main title
         plt.suptitle(f'1 year view of {fullname1} & {fullname2}', fontsize=20)
         plt.show()
 
 def company_close_plots(selected_companies, timeframe, fullnames, data): 
-    i=0
-    company_df = data[timeframe][data[timeframe]['Company'] == selected_companies[i]].copy()
-    if timeframe == '5y':
-        time = '5 year'
-    else:
-        time = '10 year'
-    plt.figure(figsize=(14, 6))
-    
-    while i < 2: 
-        company_df = data[timeframe][data[timeframe]['Company'] == selected_companies[i]].copy()
-        plt.subplot(1,2,(i+1))
-        plt.plot(company_df['Close'], label='Close Price', color='powderblue')
-        # calculating and plotting Moving Averages
-        company_df['SMA_50'] = company_df['Close'].rolling(window=50).mean()
-        company_df['SMA_200'] = company_df['Close'].rolling(window=200).mean()
-        plt.plot(company_df['SMA_50'], label='50-Day SMA', linestyle='--', color='green')
-        plt.plot(company_df['SMA_200'], label='200-Day SMA', linestyle='--', color='orange')
-        
-        # plotting Close Prices
-        plt.plot(company_df['Close'], color='powderblue')
-        plt.title(f'{fullnames[selected_companies[i]]} - Close Prices ({time})', fontweight='bold')
-        plt.xlabel('Date')
-        plt.ylabel('Close Price')
-        plt.grid(True)
-        i+=1
+    i = 0  # initializing the loop counter to start with the first company in the selected_companies list
 
-    plt.legend(framealpha=1.0, fontsize=12, ncols=3, bbox_to_anchor=(0.2,1.2))
+    # extracting the data for the first company in the selected list for the specified timeframe
+    company_df = data[timeframe][data[timeframe]['Company'] == selected_companies[i]].copy()
+
+    # defining the text label for the plot title based on the selected timeframe
+    if timeframe == '5y':
+        time = '5 year'  
+    else:
+        time = '10 year'  
+
+    plt.figure(figsize=(14, 6))  # setting the overall plot size for better readability
+
+    # looping through the two selected companies to create side-by-side plots
+    while i < 2: 
+        # filtering the data for the current company in the loop
+        company_df = data[timeframe][data[timeframe]['Company'] == selected_companies[i]].copy()
+
+        # setting up subplot (1 row, 2 columns, current position i+1)
+        plt.subplot(1, 2, (i + 1))
+
+        # plotting the Close Price trend for the company
+        plt.plot(company_df['Close'], label='Close Price', color='powderblue')
+
+        # calculating and plotting the 50-Day Simple Moving Average (SMA) to smooth out short-term fluctuations
+        company_df['SMA_50'] = company_df['Close'].rolling(window=50).mean()
+        plt.plot(company_df['SMA_50'], label='50-Day SMA', linestyle='--', color='green')
+
+        # calculating and plotting the 200-Day Simple Moving Average (SMA) for long-term trend analysis
+        company_df['SMA_200'] = company_df['Close'].rolling(window=200).mean()
+        plt.plot(company_df['SMA_200'], label='200-Day SMA', linestyle='--', color='orange')
+
+        # plotting the Close Price again for emphasis on the main trend line
+        plt.plot(company_df['Close'], color='powderblue')
+
+        # adding a title, labels, enabling grid and showing the plot
+        plt.title(f'{fullnames[selected_companies[i]]} - Close Prices ({time})', fontweight='bold')
+        plt.xlabel('Date')  
+        plt.ylabel('Close Price')  
+        plt.grid(True) 
+
+        i += 1  # moving to the next company in the loop
+
+    # adding a legend, title, enabling grid and showing the plot
+    plt.legend(framealpha=1.0, fontsize=12, ncols=3, bbox_to_anchor=(0.2, 1.2))
     plt.suptitle(f'{time} view of Close Prices for {fullnames[selected_companies[0]]} & {fullnames[selected_companies[1]]}', fontsize=20, y=1.10)
-    plt.grid(True)
+    plt.grid(True)  
     plt.show()
+
 
 def company_volatility_plots(selected_companies, timeframe, fullnames, data, colours, rolling_window): 
-    i=0
+    i = 0  # initializing the loop counter to start with the first company in the selected_companies list
+
+    # defining the text label for the plot title based on the selected timeframe
     if timeframe == '5y':
-        time = '5 year'
+        time = '5 year'  # if the timeframe is '5y', label it as '5 year'
     else:
-        time = '10 year'
-    plt.figure(figsize=(12, 6))
-        
+        time = '10 year'  # otherwise, label it as '10 year'
+
+    plt.figure(figsize=(12, 6))  # setting the plot size for better visualization
+
+    # looping through the two selected companies to plot their rolling volatility
     while i < 2:
+        # filtering the data for the current company in the loop
         company_df = data[timeframe][data[timeframe]['Company'] == selected_companies[i]].copy()
+
+        # fetching the color assigned to the current company for consistent plot coloring
         colour = colours.get(selected_companies[i])
-        # Calculate Rolling Volatility for the two companies
+
+        # calculating the rolling volatility using the standard deviation of percentage changes in Close Price
         company_df['Rolling_Volatility'] = company_df['Close'].pct_change().rolling(window=rolling_window).std() * 100
-        plt.plot(company_df['Rolling_Volatility'], label=f'{fullnames[selected_companies[i]]}Rolling Volatility ({rolling_window} days)', color=colour)
-        plt.xlabel('Date')
-        plt.ylabel('Volatility (%)')
-        i+=1
 
+        # plotting the rolling volatility trend for the company
+        plt.plot(
+            company_df['Rolling_Volatility'],
+            label=f'{fullnames[selected_companies[i]]} Rolling Volatility ({rolling_window} days)',
+            color=colour
+        )
 
+        # setting axis labels for clarity
+        plt.xlabel('Date')  # x-axis label for time
+        plt.ylabel('Volatility (%)')  # y-axis label for percentage volatility
+
+        i += 1  # moving to the next company in the loop
+
+    # adding a legend, title, labels, enabling grid and showing the plot
     plt.legend(framealpha=1.0, fontsize=12)
     plt.title(f'{fullnames[selected_companies[0]]} & {fullnames[selected_companies[1]]} - Rolling Volatility ({time})', fontweight='bold')
-    plt.grid(True)
-    plt.show()
+    plt.grid(True) 
+    plt.show() 
+
 
 
 def company_trading_volume_plots(selected_companies, timeframe, fullnames, data): 
-    i=0
+    i = 0  # initializing the loop counter to start with the first company in the selected_companies list
+
+    # defining the text label for the plot title based on the selected timeframe
     if timeframe == '5y':
-        time = '5 year'
+        time = '5 year'  # if the timeframe is '5y', label it as '5 year'
     else:
-        time = '10 year'
-    
-    plt.figure(figsize=(14, 6))
+        time = '10 year'  # otherwise, label it as '10 year'
+
+    plt.figure(figsize=(14, 6))  # setting the overall figure size for better readability
+
+    # looping through the two selected companies to create side-by-side volume plots
     while i < 2:
-        # copying the df to use for the calculations
+        # filtering the data for the current company in the loop
         company_df = data[timeframe][data[timeframe]['Company'] == selected_companies[i]].copy()
 
-        company_df = company_df.asfreq('D')  # aligning the index to daily frequency
-        company_df['Volume'] = company_df['Volume'].interpolate(method='linear', limit_direction='both') # tidying the data to fill in NaN values using liner interpolation
+        # aligning the index to daily frequency to maintain consistent time intervals
+        company_df = company_df.asfreq('D')
 
-        plt.subplot(1,2,(i+1))
-        # plotting the volume
+        # filling in any missing volume data using linear interpolation for smoother visualization
+        company_df['Volume'] = company_df['Volume'].interpolate(method='linear', limit_direction='both')
+
+        # creating a subplot for each company (1 row, 2 columns, current position i+1)
+        plt.subplot(1, 2, (i + 1))
+
+        # plotting the daily trading volume as a bar chart
         plt.bar(company_df.index, company_df['Volume'], alpha=1, label='Volume', width=1.0)
+
+        # overlaying a 20-day rolling average line to highlight volume trends
         plt.plot(company_df['Volume'].rolling(window=20).mean(), color='green', label='20-Day Avg Volume')
 
+        # adding a title for the individual subplot with the company's full name and timeframe
         plt.title(f'{fullnames[selected_companies[i]]} - Trading Volume ({time})', fontweight='bold')
-        plt.xlabel('Date')
-        plt.ylabel('Volume')
-        plt.grid(True)
+        plt.xlabel('Date')  # setting the label for the x-axis
+        plt.ylabel('Volume')  # setting the label for the y-axis
+        plt.grid(True)  # enabling gridlines for better readability
 
-        i += 1
+        i += 1  # moving to the next company in the loop
 
-    plt.legend(framealpha=1.0, fontsize=12, ncols=3, bbox_to_anchor=(0.3,1.2))
+    # adding a legend, overall title, enabling grid and showing the plot
+    plt.legend(framealpha=1.0, fontsize=12, ncols=3, bbox_to_anchor=(0.3, 1.2))
     plt.suptitle(f'{time} view Trading Volume of {fullnames[selected_companies[0]]} & {fullnames[selected_companies[1]]}', fontsize=20, y=1.10)
-    plt.grid(True)
-    plt.show()
+    plt.grid(True) 
+    plt.show() 
 
 def company_cumulative_returns(selected_companies, timeframe, data, fullnames, colours):
-    i = 0
+    i = 0  # initializing the loop counter to start with the first company in the selected_companies list
+
+    # defining the text label for the plot title based on the selected timeframe
     if timeframe == '5y':
-        time = '5 year'
+        time = '5 year'  
     else:
-        time = '10 year'
-        
-    while i < 2: 
-            company1 = selected_companies[i]
-                # Fetch the color for the company
-            color = colours.get(selected_companies[i])
+        time = '10 year'  
 
+    # looping through the two selected companies to plot their cumulative returns
+    while i < 2:
+        company1 = selected_companies[i]  # selecting the current company from the list
 
-            company_df = data[timeframe][data[timeframe]['Company'] == selected_companies[i]].copy()
-            # Normalize returns
-            cumulative_returns1 = (1 + company_df['Close'].pct_change()).cumprod()
-            plt.plot(cumulative_returns1, label=f'{company1} Cumulative Returns', color=color)
-            i += 1
+        # fetching the color assigned to the current company for consistent plot coloring
+        color = colours.get(selected_companies[i])
 
-    plt.title(f'{fullnames[selected_companies[0]]} & {fullnames[selected_companies[1]]}- Cumulative Returns ({time})')
+        # filtering the data for the current company in the specified timeframe
+        company_df = data[timeframe][data[timeframe]['Company'] == selected_companies[i]].copy()
+
+        # calculating the cumulative returns: (1 + daily % change) cumulatively multiplied
+        cumulative_returns1 = (1 + company_df['Close'].pct_change()).cumprod()
+
+        # plotting the cumulative returns over time for the company
+        plt.plot(cumulative_returns1, label=f'{company1} Cumulative Returns', color=color)
+
+        i += 1  # moving to the next company in the loop
+
+    # adding a legend, title, labels,enabling grid and showing the plot
+    plt.title(f'{fullnames[selected_companies[0]]} & {fullnames[selected_companies[1]]} - Cumulative Returns ({time})')
     plt.xlabel('Date')
     plt.ylabel('Cumulative Returns')
-    plt.grid(True)
-    plt.legend()
+    plt.grid(True) 
+    plt.legend() 
     plt.show()
+
 
 def industry_close_prices_plot(data, time, colours): 
     # filtering the combinded data in the dataframe to just select the data for the 1-year timeframe

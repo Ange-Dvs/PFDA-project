@@ -72,7 +72,7 @@ The notebook uses the following Python libraries:
 
 These can be installed via the requirements.txt file.
 
-## Walkthrough of code
+## Walkthrough of project steps
 
 ### myfunctions.py
 
@@ -104,78 +104,79 @@ The following functions have been removed from the notebook after they were no l
 
 ### stocks.ipynb
 
-#### Project set-up section
+#### Project set-up 
 
-**Importing Libraries and Custom Functions:**  
+1.**Importing Libraries and Custom Functions:**  
 - Imports essential libraries for data manipulation, analysis, and visualization.
 - Loads custom plotting and analysis functions from ``myfunctions.py``.
 
-**Defining Industries and Companies:**  
+2.**Defining Industries and Companies:**  
 - Maps industries to relevant company stock tickers.
 - Provides full company names for better labelling in visualizations.
 
-**Initializing DataFrames for Multiple Timeframes:**  
+3.**Initializing DataFrames for Multiple Timeframes:**  
 - Sets up empty DataFrames for storing historical stock data across different periods.
 
-**Checking Data Availability:**  
+4.**Checking Data Availability:**  
 - Checks if each company has 5 years of historical data available.
 - Identifies data limitations for newer industries (e.g., Quantum Computing, EVs).
 
-**Data Collection for Multiple Time Periods:**  
+5.**Data Collection for Multiple Time Periods:**  
 - Downloads historical stock data for each company over 1, 5, and 10 years.
 - Skips unavailable data for newer industries.
 - Adds industry, company, and timeframe labels for easy filtering.
 
-**Data Cleaning and Validation:**  
+6.**Data Cleaning and Validation:**  
 - Checks for missing values in the datasets to ensure data quality.
 
-**Time zone Standardization:**  
+7.**Time zone Standardization:**  
 - Converts timestamps from the New York time zone to UTC for consistency in analysis.
 
-**Defining Colour Schemes for Visualizations:**  
+8.**Defining Colour Schemes for Visualizations:**  
 - Establishes consistent colour coding for industries and companies in all visualizations.
 
 Once the data is cleaned the functions created in ``myfunctions.py`` are used throughout the project to help form the bases of the analysis. 
 
 #### Industry-Wide Performance Analysis code within stocks.ipynb notebook
 
-**Resampling Data for Industry Performance Analysis:**  
+1.**Resampling Data for Industry Performance Analysis:** 
+
 - Resamples daily close prices to calculate the mean close price for each industry across 1, 5, and 10-year timeframes.
 - Prepares data for industry performance visualization.
 
-**Plotting Industry Close Prices:**  
+2.**Plotting Industry Close Prices:**  
 - Visualizes mean daily close prices across industries over a 1-year timeframe.
 - Highlights industry-specific growth trends and market behaviours.
 
-**Calculating Industry Volatility:**  
+3.**Calculating Industry Volatility:**  
 - Calculates daily volatility as a percentage for each industry using high and low stock prices.
 - Prepares data for volatility trend analysis.
 
-**Plotting Industry Volatility Trends:**  
+4.**Plotting Industry Volatility Trends:**  
 - Visualizes rolling 30-day volatility trends to assess industry risk and market stability.
 - Helps identify which industries experience higher or lower market volatility.
 
-**Comparing Industry Averages (Close Price, Volatility, Volume):**
+5.**Comparing Industry Averages (Close Price, Volatility, Volume):**
 - Compares average Close Prices, Volatility, and Trading Volume across industries.
 - Provides a clear overview of industry performance and risk levels.
 
-**Bubble Chart: Close Price vs. Volume (Size = Volatility):**
+6.**Bubble Chart: Close Price vs. Volume (Size = Volatility):**
 - Visualizes the relationship between Close Price and Volume, with bubble size representing volatility.
 - Offers a multidimensional view of market dynamics for each industry.
 
-**Industry Correlation Analysis:**
+7.**Industry Correlation Analysis:**
 - Measures the correlation between industries based on Close Prices.
 - Helps identify industries that move together or inversely.
 
-**Rolling Correlation of Daily Returns:**
+8.**Rolling Correlation of Daily Returns:**
 - Analyses 90-day rolling correlations between industries' daily returns.
 - Reveals how industry relationships evolve over time.
 
-**Distribution of Daily Returns:**
+9.**Distribution of Daily Returns:**
 - Displays the distribution of daily returns for each industry.
 - Highlights volatility and the frequency of extreme price changes.
 
-**Violin Plot of Daily Returns:**
+10.**Violin Plot of Daily Returns:**
 - Combines distribution and volatility in a single violin plot for each industry.
 - Illustrates how daily returns are distributed and how volatile they are.
 
@@ -271,7 +272,7 @@ There is a high level of customization available, with options to easily manage 
 
 > ``.violinplot`` (Function) - Creates a violin plot to visualize the distribution, probability density, and variability of data across different categories.
 
-> ``.heatmap`` (Function) - Creates a heatmap to visualize data in a matrix format using color gradients, often used to show correlations or patterns between variables.
+> ``.heatmap`` (Function) - Creates a heatmap to visualize data in a matrix format using colour gradients, often used to show correlations or patterns between variables.
 
 <font size="4"><b>Default Python Functionality (Built-in or Standard Library)</b></font>  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The built-in Python functionality and standard library provide tools for data manipulation and processing.
@@ -310,7 +311,7 @@ During the creation of this project, various online resources and documentation 
   Guided the setup, installation, and basic usage of `yfinance` in Python notebooks.
 
 - **[YFinance YouTube Tutorial](https://www.youtube.com/watch?v=3FG6ATh90IU)**  
-  Offered a step-by-step video walkthrough of how to use `yfinance` for fetching and analyzing stock data.
+  Offered a step-by-step video walkthrough of how to use `yfinance` for fetching and analysing stock data.
 
 ---
 ### **Data Visualization Techniques**
@@ -318,8 +319,8 @@ During the creation of this project, various online resources and documentation 
 - **[Small Multiples for Line Charts](https://python-graph-gallery.com/125-small-multiples-for-line-chart/)**  
   Provided inspiration for creating multiple line charts with emphasis on specific data series.
 
-- **[Using Dictionaries for Plot Colors](https://stackoverflow.com/questions/73077364/using-a-dictionary-to-plot-a-bar-plot-and-using-another-dictionary-to-give-each)**  
-  Helped in dynamically assigning colors to plots based on industries or companies.
+- **[Using Dictionaries for Plot Colours](https://stackoverflow.com/questions/73077364/using-a-dictionary-to-plot-a-bar-plot-and-using-another-dictionary-to-give-each)**  
+  Helped in dynamically assigning colours to plots based on industries or companies.
 
 - **[Matplotlib Dates API](https://matplotlib.org/stable/api/dates_api.html)**  
   Guided the customization of date formatting and interval settings on plots.
@@ -348,7 +349,7 @@ During the creation of this project, various online resources and documentation 
 ### **Data Analysis and Manipulation**
 
 - **[Pandas GroupBy Documentation](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.groupby.html)**  
-  Used for aggregating and analyzing grouped data by industry or company.
+  Used for aggregating and analysing grouped data by industry or company.
 
 - **[Interpolation Techniques](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.interpolate.html)**  
   Explained how to handle missing data, especially during non-trading days.
@@ -406,10 +407,10 @@ During the creation of this project, various online resources and documentation 
   `yfinance` tutorials and documentation guided the setup and data fetching process.
 
 - **Data Analysis:**  
-  Pandas and financial metric resources were vital for analyzing daily returns, volatility, and correlations.
+  Pandas and financial metric resources were vital for analysing daily returns, volatility, and correlations.
 
 - **Visualization:**  
-  Plotting techniques and color mapping resources ensured clear and consistent data visualizations.
+  Plotting techniques and colour mapping resources ensured clear and consistent data visualizations.
 
 - **Statistical Analysis:**  
   Financial indicators like SMA, P/E ratio, and beta volatility were used to interpret stock trends and risks.

@@ -430,22 +430,6 @@ During the creation of this project, various online resources and documentation 
 - **[Investopedia – Interpolation](https://www.investopedia.com/terms/i/interpolation.asp)**  
   Clarified how interpolation is used to fill gaps in time-series data.
 
----
-
-## **Practical Application of Resources**
-
-- **Stock Data Collection:**  
-  `yfinance` tutorials and documentation guided the setup and data fetching process.
-
-- **Data Analysis:**  
-  Pandas and financial metric resources were vital for analysing daily returns, volatility, and correlations.
-
-- **Visualization:**  
-  Plotting techniques and colour mapping resources ensured clear and consistent data visualizations.
-
-- **Statistical Analysis:**  
-  Financial indicators like SMA, P/E ratio, and beta volatility were used to interpret stock trends and risks.
-
 --- 
 
 ### Description of common investing terminology

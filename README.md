@@ -326,7 +326,8 @@ built in
 
 > ``.get`` (Method) -  Retrieves the value for a specified key from a dictionary. If the key does not exist, it returns None or a user-defined default value instead of raising an error..  
 
- References and Resources
+
+## References and Resources
 
 During the creation of this project, various online resources and documentation were utilized to support stock data analysis, visualization, and market understanding. Below is a categorized summary of these references, along with brief explanations of their relevance to the project.
 

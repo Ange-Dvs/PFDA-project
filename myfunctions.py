@@ -335,3 +335,52 @@ def create_industry_returns_df(industries, industry_dataframes):
     industry_returns = industry_mean_returns.T # transposing back to the original format with the dates as rows
 
     return industry_returns
+
+def company_5year_stats_with_sma(industry_dataframes, timeframe, ticker):
+    # function used for generating high level data for the Close price & SMA plots to use for the analysis.
+    
+    # filtering the data for the selected company
+    company_data = industry_dataframes[timeframe][
+        industry_dataframes[timeframe]['Company'] == ticker
+    ].sort_index()
+
+    # calculating the 50-Day SMA if it doesn't exist
+    if '50_SMA' not in company_data.columns:
+        company_data['50_SMA'] = company_data['Close'].rolling(window=50).mean()
+
+    # calculating the 200-Day SMA if it doesn't exist
+    if '200_SMA' not in company_data.columns:
+        company_data['200_SMA'] = company_data['Close'].rolling(window=200).mean()
+
+    # Close Price Analysis 
+    min_close_date = company_data['Close'].idxmin()
+    min_close_value = company_data['Close'].min()
+
+    max_close_date = company_data['Close'].idxmax()
+    max_close_value = company_data['Close'].max()
+
+    print(f'\n{ticker} Close Price (5 Years):')
+    print(f'   - Minimum Close Price: {min_close_value:.2f} on {min_close_date.date()}')
+    print(f'   - Maximum Close Price: {max_close_value:.2f} on {max_close_date.date()}')
+
+    # 50-Day SMA Analysis
+    min_sma50_date = company_data['50_SMA'].idxmin()
+    min_sma50_value = company_data['50_SMA'].min()
+
+    max_sma50_date = company_data['50_SMA'].idxmax()
+    max_sma50_value = company_data['50_SMA'].max()
+
+    print(f'\n{ticker} 50-Day SMA (5 Years):')
+    print(f'   - Minimum 50-Day SMA: {min_sma50_value:.2f} on {min_sma50_date.date()}')
+    print(f'   - Maximum 50-Day SMA: {max_sma50_value:.2f} on {max_sma50_date.date()}')
+
+    # 200-Day SMA Analysis 
+    min_sma200_date = company_data['200_SMA'].idxmin()
+    min_sma200_value = company_data['200_SMA'].min()
+
+    max_sma200_date = company_data['200_SMA'].idxmax()
+    max_sma200_value = company_data['200_SMA'].max()
+
+    print(f'\n{ticker} 200-Day SMA (5 Years):')
+    print(f'   - Minimum 200-Day SMA: {min_sma200_value:.2f} on {min_sma200_date.date()}')
+    print(f'   - Maximum 200-Day SMA: {max_sma200_value:.2f} on {max_sma200_date.date()}')

@@ -18,20 +18,22 @@ In 2024, I noticed that seemingly out of nowhere I was receiving numerous adds f
 
 In parallel to this I was receiving a large amount of snippets of news to my inbox, from an investing app I had installed last year, discussing the upcoming US election.  
 
-As an amateur in the world of in
+As an amateur in the world of investing this influx of investing related information and adds peaked my interest as a potential topic to dive into for the Programming for Data Analytics project. 
+
+After landing on the final decision to use the stock market as a topic for analysis, I begin searching for a suitable dataset that would be able to provide the details required and give the option for expanding the timeframe and amount of data analysed. 
+
+This is where ``yfinance`` came in, with a number of tutorials and summaries available online explaining the ``Python`` library. 
+
+It is worth noting that ``yfinance`` is not officially supported by Yahoo so the data should not be used for real trading or commercial use.  
+Put for the purpose of demonstrating some data analysis techniques learnt this module it fits well due to the large size of the data and the ability to look at the historical data.  
 
 
-https://algotrading101.com/learn/yfinance-guide/ - Explanation of yfinance
-https://mayerkrebs.com/yfinance-library-the-definitive-guide/ - Summary of yfinace 
+## Installation & Usage Instructions
 
-Point to consider yfinance is not officially supported by Yahoo so the data should not be used for real trading or commercial use. Put for the purpose of demonstrating some data analysis techniques learnt this module it fits well due to the large size of the data and the ability to look at the historical data.  
+### Software used
+The software used for the creation of the assignment notebooks included VS Code, Python, Jupyter notebooks & GitHub. 
 
-For each company, that data is fetched using yfinance and the following information extracted:
-- Market Capitalisation (marketCap) – Total company value.
-- Price-to-Earnings (P/E) Ratio (trailingPE) – Measures valuation relative to earnings.
-- Dividend Yield (%) (dividendYield) – Annual return from dividends.
-
-## Cloning repository from GitHub
+### Cloning repository from GitHub
 
 1. Copy the following URL:
 https://github.com/Ange-Dvs/PFDA-assignments.git
@@ -49,99 +51,370 @@ https://github.com/Ange-Dvs/PFDA-assignments.git
 
 6. If the pull has been successful, you should see 6 files pulled from GitHub. The ``readme.md``, the ``.gitignore`` file, the 4 assignments contained within individual Jupyter notebooks and two ``CSV`` files which were generated as a result of running the ``assignment_05_risk.ipynb`` notebook before the final push to GitHub.
 
-## Software used
-The software used for the creation of the assignment notebooks included VS Code, Python, Jupyter notebooks & GitHub. 
+### Install Dependencies
+The requirments.txt file can be used to install the dependencies before running the project.
+`pip install -r requirements.txt`
 
-## Walkthrough of code
+### Run the Notebook
+1. Launch Jupyter Notebook on your system and navigate to ``stocks.ipynb`` file in the directory and open it.
+2. Execute the cells sequentially, by clicking Run all. This will load the weather dataset, render the markdown cells and generate the plots.
 
-## Requirements
+If any errors occur, check your dependencies and ensure all libraries are installed correctly.
 
-### Libraries used
-Within the assignments various libraries are used including:
-- Libraries:
+### Dependencies
+The notebook uses the following Python libraries:
+
   - `yfinance`
   - `pandas`
   - `numpy`
   - `matplotlib`
   - `seaborn`
 
-### Install Dependencies
-The requirments.txt file can be used to install the dependencies before running the project.
-`pip install -r requirements.txt`
+These can be installed via the requirements.txt file.
 
-## Usage Instructions
+## Walkthrough of code
 
+### myfunctions.py
 
-## Tips for yfinace
-https://medium.com/@kasperjuunge/yfinance-10-ways-to-get-stock-data-with-python-6677f49e8282 - 10 useful functions within yfinance
-https://github.com/RaghavsScarletSplendour/YahooFinanceTutorial/blob/main/Yfinance_tutorial.ipynb - Jupyter notebook walking through installation and basic use of yfinance
-https://www.youtube.com/watch?v=3FG6ATh90IU - YouTube tutorial for yfinance
+The ``myfunctions.py`` file contains functions created to simplify and reuse code throughout the notebook to reduce clutter. 
+The majority of functions are used to create the plots used in the notebook. 
 
+#### Overview of functions within myfunctions.py
 
-- Small multiple line charts with one line highlighted for emphasis
-https://python-graph-gallery.com/125-small-multiples-for-line-chart/
+##### Company Performance Visualization
+- ``company_1_yr_plots``: Generates multi-plot graphs displaying Close Price, Volatility, and Trading Volume trends for two selected companies over the past year.
+- ``company_close_plots``: Compares Close Prices along with 50-day and 200-day Simple Moving Averages (SMA) for selected companies over 5 or 10 years.
+- ``company_volatility_plots``: Plots rolling volatility to highlight stock price fluctuations over time.
+- ``company_trading_volume_plots``: Visualizes trading volume trends with a 20-day moving average overlay.
 
-- List for companies in S&P 500 (used to see what symbol is used to reference a company)
-https://en.wikipedia.org/wiki/List_of_S%26P_500_companies
+##### Return and Performance Analysis
 
-## External links and resources
-- Understanding market capitalisation and how it's calculated:  
-&nbsp;&nbsp;&nbsp;&nbsp;https://www.investopedia.com/investing/market-capitalization-defined/ 
-&nbsp;&nbsp;&nbsp;&nbsp;https://www.nerdwallet.com/article/investing/what-is-market-cap
+- ``company_cumulative_returns``: Displays cumulative returns to measure long-term company performance.
+- ``create_industry_returns_df``: Calculates and organizes daily returns across industries for comparative analysis.
 
-- Understanding Price-to-Earnings ratios, the different types and how it's calculated: 
-&nbsp;&nbsp;&nbsp;&nbsp;https://www.investopedia.com/terms/p/price-earningsratio.asp
+##### Industry Trend Analysis
 
-- Understanding the dividends yield: 
-&nbsp;&nbsp;&nbsp;&nbsp;https://www.investopedia.com/terms/d/dividendyield.asp
+- ``industry_close_prices_plot``: Visualizes industry-wide performance by plotting mean daily close prices across different industries.
 
-- Understanding interpolation: 
-&nbsp;&nbsp;&nbsp;&nbsp;https://www.investopedia.com/terms/i/interpolation.asp 
-&nbsp;&nbsp;&nbsp;&nbsp;https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.interpolate.html 
-&nbsp;&nbsp;&nbsp;&nbsp;Interpolation is a technique used to fill in missing data, two related values are used to fill in the missing value.  In this project it will be used to fill in the gaps in data for days in which the New York stock exchange is not open.  This will help show a neater visual when plotting the data and fill in the NaN values. 
+##### Detailed Statistical Analysis
+The following functions have been removed from the notebook after they were no longer needed. Note if using functions ensure the notebook has run it's in entirety first as some of the values used are created during the execution of the notebook. 
 
-- Understanding volatility: 
-&nbsp;&nbsp;&nbsp;&nbsp;https://medium.com/@polanitzer/volatility-calculation-in-python-estimate-the-annualized-volatility-of-historical-stock-prices-db937366a54d#:~:text=37.6%25%20per%20annum.-,4.%20Volatility,-The%20volatility%20of 
-&nbsp;&nbsp;&nbsp;&nbsp;Beta volatility - https://www.investopedia.com/investing/beta-know-risk/#:~:text=Beta%20is%20a%20measure%20of,has%20a%20beta%20above%201.0.
-&nbsp;&nbsp;&nbsp;&nbsp;*Volatility* - measures that risk of investing in a stock based on the fluctuation in it's price over time. If a stock is described as high volatility, the stock price changes a lot, while low volatility means it's more stable.  
-&nbsp;&nbsp;&nbsp;&nbsp;*Beta Volatility* - measures the relative risk of a stock compared to the overall market. It shows how sensitive a stock is to market movements.
+- ``company_stats``: Extracts and reports key statistics (first, latest, max, and min values) for a selected stock within a specified year.
+- ``company_5year_stats_with_sma``: Provides a detailed breakdown of Close Prices and SMA (50-day and 200-day) trends for the past five years.
 
-- Grouping data: 
-&nbsp;&nbsp;&nbsp;&nbsp;https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.groupby.html
+### stocks.ipynb
 
-- Using a dictionary for colours in a plot:
-&nbsp;&nbsp;&nbsp;&nbsp;https://stackoverflow.com/questions/73077364/using-a-dictionary-to-plot-a-bar-plot-and-using-another-dictionary-to-give-each
+#### Project set-up section
 
-- ``SettingWithCopyWarning`` issue:
-&nbsp;&nbsp;&nbsp;&nbsp;https://www.dataquest.io/blog/settingwithcopywarning/
+**Importing Libraries and Custom Functions:**  
+- Imports essential libraries for data manipulation, analysis, and visualization.
+- Loads custom plotting and analysis functions from ``myfunctions.py``.
 
-- Understanding Volume patterns:
-&nbsp;&nbsp;&nbsp;&nbsp;https://www.investopedia.com/articles/technical/02/010702.asp
+**Defining Industries and Companies:**  
+- Maps industries to relevant company stock tickers.
+- Provides full company names for better labelling in visualizations.
 
-- Understanding .pct_change():  
-&nbsp;&nbsp;&nbsp;&nbsp;https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.pct_change.html  
-&nbsp;&nbsp;&nbsp;&nbsp;https://www.w3schools.com/python/pandas/ref_df_pct_change.asp  
-&nbsp;&nbsp;&nbsp;&nbsp;The ``.pct_change`` method is used to return the differences between a value, going row-by-row comparing with the previous row. It's used in the project to check the percentage change between the 'Close' columns from one day to the next. These results are then stored in a new column in the DataFrame called 'Daily_Returns'. These values are then used to assess if there are potentially any industries with similar patterns by comparing their daily returns based on percentage change instead of absolute values.
+**Initializing DataFrames for Multiple Timeframes:**  
+- Sets up empty DataFrames for storing historical stock data across different periods.
 
-- Understanding .stack():  
-&nbsp;&nbsp;&nbsp;&nbsp;Takes the headers in the pivot table and converts them into values in a row for the "Company" column.
+**Checking Data Availability:**  
+- Checks if each company has 5 years of historical data available.
+- Identifies data limitations for newer industries (e.g., Quantum Computing, EVs).
 
-- Understanding .enumerate():  
-&nbsp;&nbsp;&nbsp;&nbsp;Works as a way to loop over objects while also keeping count for the loop. The function takes in two arguments, the sequence to be used for the loop and optionally the starting value for the loop. Using indexing enumerate adds the possibility to access key-pair information from a dictionary, this makes it possible to change values to be used in a loop after each iteration. It is used to loop through each column name in ``industry_returns.columns`` (e.g., 'Technology', 'Quantum Computing'). It tracks the index if a counter is defined (``i`` or ``j`` in the project) associated with each column, starting at 0.
+**Data Collection for Multiple Time Periods:**  
+- Downloads historical stock data for each company over 1, 5, and 10 years.
+- Skips unavailable data for newer industries.
+- Adds industry, company, and timeframe labels for easy filtering.
 
-- Understanding Boxplot:  
-&nbsp;&nbsp;&nbsp;&nbsp;https://www.geeksforgeeks.org/boxplot-using-seaborn-in-python/
-&nbsp;&nbsp;&nbsp;&nbsp;https://seaborn.pydata.org/archive/0.11/generated/seaborn.boxplot.html#:~:text=boxplot,-seaborn.&text=Draw%20a%20box%20plot%20to,levels%20of%20a%20categorical%20variable.
-&nbsp;&nbsp;&nbsp;&nbsp;https://www.ncl.ac.uk/webtemplate/ask-assets/external/maths-resources/statistics/data-presentation/box-and-whisker-plots.html
-&nbsp;&nbsp;&nbsp;&nbsp;https://www.tableau.com/chart/what-is-box-and-whisker-plot
+**Data Cleaning and Validation:**  
+- Checks for missing values in the datasets to ensure data quality.
 
-Understanding SMA: 
-&nbsp;&nbsp;&nbsp;&nbsp;"A simple moving average (SMA) is a simple trading indicator to calculate and use. To calculate it, you add a number of prices together and then divide by the number of prices you added. An example makes the SMA clearer."
-&nbsp;&nbsp;&nbsp;&nbsp;https://www.dummies.com/article/business-careers-money/personal-finance/investing/general-investing/how-to-calculate-simple-moving-average-in-trading-160018/
+**Time zone Standardization:**  
+- Converts timestamps from the New York time zone to UTC for consistency in analysis.
 
-Understanding .cumsum():
-&nbsp;&nbsp;&nbsp;&nbsp;https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.cumsum.html
+**Defining Colour Schemes for Visualizations:**  
+- Establishes consistent colour coding for industries and companies in all visualizations.
 
+Once the data is cleaned the functions created in ``myfunctions.py`` are used throughout the project to help form the bases of the analysis. 
+
+#### Industry-Wide Performance Analysis code within stocks.ipynb notebook
+
+**Resampling Data for Industry Performance Analysis:**  
+- Resamples daily close prices to calculate the mean close price for each industry across 1, 5, and 10-year timeframes.
+- Prepares data for industry performance visualization.
+
+**Plotting Industry Close Prices:**  
+- Visualizes mean daily close prices across industries over a 1-year timeframe.
+- Highlights industry-specific growth trends and market behaviours.
+
+**Calculating Industry Volatility:**  
+- Calculates daily volatility as a percentage for each industry using high and low stock prices.
+- Prepares data for volatility trend analysis.
+
+**Plotting Industry Volatility Trends:**  
+- Visualizes rolling 30-day volatility trends to assess industry risk and market stability.
+- Helps identify which industries experience higher or lower market volatility.
+
+**Comparing Industry Averages (Close Price, Volatility, Volume):**
+- Compares average Close Prices, Volatility, and Trading Volume across industries.
+- Provides a clear overview of industry performance and risk levels.
+
+**Bubble Chart: Close Price vs. Volume (Size = Volatility):**
+- Visualizes the relationship between Close Price and Volume, with bubble size representing volatility.
+- Offers a multidimensional view of market dynamics for each industry.
+
+**Industry Correlation Analysis:**
+- Measures the correlation between industries based on Close Prices.
+- Helps identify industries that move together or inversely.
+
+**Rolling Correlation of Daily Returns:**
+- Analyses 90-day rolling correlations between industries' daily returns.
+- Reveals how industry relationships evolve over time.
+
+**Distribution of Daily Returns:**
+- Displays the distribution of daily returns for each industry.
+- Highlights volatility and the frequency of extreme price changes.
+
+**Violin Plot of Daily Returns:**
+- Combines distribution and volatility in a single violin plot for each industry.
+- Illustrates how daily returns are distributed and how volatile they are.
+
+## Libraries used
+
+<font size="4"><b>yfinance</b></font>
+        ``yfinance`` is a library in Python used for retrieving historical market data directly from Yahoo Finance.
+It allows for the collection of financial data such as stock prices and trading volume which are utilized throughout the analysis.
+It offers flexibility in selecting specific timeframes, multiple stock tickers, making it a valuable library for data analysis and visualization of the stock market.
+
+> ``.Ticker`` (Function) -  used to access a specific company's stock data by providing its ticker symbol enabling the retrieval of historical prices and financial information.
+
+<font size="4"><b>Pandas</b></font>   
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Pandas` is a library in Python used for data analysis which enables the use of two-dimensional tables called DataFrames.  
+Within the assignments the ``Pandas`` library is used to read in the data from the various ``CSV`` files.  
+It is also used to convert date information in the ``CSV`` file to a datetime series.
+
+The following are methods used throughout the assignments from `Pandas`: 
+
+> ``.concat`` (Function) - Combines multiple DataFrames or Series along a particular axis (rows or columns), allowing for efficient data merging and appending.
+
+> ``.DataFrame`` (Function) - Creates a two-dimensional, tabular data structure with labelled axes (rows and columns).
+
+> ``.to_datetime`` (Function) - Converts a string or other formats to a ``datetime`` object.  
+
+> ``.to_numeric`` (Function) - Converts a Series to numeric types, coercing errors if specified.  
+
+> ``.set_index`` (Method) - Sets a DataFrame column as the index.
+
+> ``.resample`` (Method) - Resamples time-series data to a different frequency.  
+
+> ``.mean`` (Method) - Calculates the mean of values along a DataFrame or Series axis.
+
+> ``.Timestamp`` (Function) - Represents a specific point in time.
+
+> ``.isna`` (Function) - Detects missing values in a Series or DataFrame.
+
+> ``.rolling`` (Method) - Provides rolling window calculations for time-series data.
+
+> ``.corr`` (Method) - Calculates the pairwise correlation between numerical columns in a DataFrame, measuring how strongly variables are related to each other.
+
+> ``.groupby`` (Method) – Splits a DataFrame into groups based on the values in one or more columns, allowing for aggregation, transformation, or filtering of data within each group.
+
+> ``.pivot_table`` (Method) – Creates a spreadsheet-style pivot table that allows for summarizing and aggregating data by specifying index (rows), columns, and values, with customizable aggregation functions.
+
+> ``.unique`` (Method) – Returns the unique values from a Series or DataFrame column, eliminating any duplicates.
+
+> ``.agg`` (Method) – Allows the application of one or multiple aggregation functions (like mean, sum, min, max) to a DataFrame or Series for summarizing data.
+
+> ``.keys`` (Method) – Returns the keys (column labels for DataFrames or index labels for Series) of a pandas object, similar to how it works with Python dictionaries.
+
+<font size="4"><b>Matplotlib.pyplot</b></font>  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The ``Matplotlib.pyplot`` library is used for visual representation of the dataset.
+This library enables the creation of many types of plots including line plots, pie charts and bar charts which are generated throughout the assignments.  
+There is a high-level of customisation possible with options to switch up the colour, markers, legend, labels and titles of the plots.
+
+The following are methods used from `Matplotlib.pyplot`: 
+
+> ``.legend`` (Function) - Adds a legend to a plot to label the data.
+
+> ``.title`` (Function) - Add a title to a plot, the title can be customised to alter how the font looks (weight and size) and location on the plot.
+
+> ``.show`` (Function) - Used after the plot has been created to show the plot.
+
+> ``.grid`` (Function) - Can be used to add or remove gridlines from the plot to enhance readability of the plot. 
+
+> ``.bar`` (Function) - Create a bar chart to display categorical data.
+
+> ``.hist`` (Function) -  Creates a histogram to visualize the distribution of data.
+
+> ``.plot`` (Function) - Create a line plot by default. It can also be adapted for a variety of visualizations by adjusting its parameters.
+
+> ``.subplot`` (Function) - Supports the creation of multiple plots in one figure. The number of plots which can be displayed is controlled by values entered for the number of columns and rows required. 
+
+> ``.xticks`` & ``.yticks`` (Function) - Offers the ability to change the default tick settings on the x and y axes including the possibility to change the position of the ticks on the plot borders or remove the ticks completely.
+
+> ``.xlabel`` & ``.ylabel`` (Function) - Sets the heading for the axes and allows customisation of the font with the possibility to change the style, font and location of the labels.
+
+> ``.ylim`` (Function) - Sets limit of the y-axis. This is useful when it's needed to overwrite the default value or range for the axes.
+
+> ``.figtext`` (Function) - Adds text to plots.
+
+> ``.figure`` (Function) - Create a new figure object, holding all elements of a plot, such as axes, titles, legends, and other visual elements. The size of the figure can also be specified within the ``.figure`` function.
+
+> ``.tight_layout`` (Function) - Automatically adjusts subplot spacing to prevent overlap.
+
+> ``.show`` (Function) -  Displays the current plot or figure.
+
+<font size="4"><b>Seaborn</b></font>  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;``Seaborn`` is used for advanced data visualization and statistical analysis.
+This library builds on ``Matplotlib``, offering a more user-friendly interface and aesthetically pleasing default styles for plots such as heatmaps, scatterplots, and boxplots.  
+There is a high level of customization available, with options to easily manage colour palettes, adjust axes styling, add statistical annotations, and create visually appealing multi-plot grids.
+
+> ``.violinplot`` (Function) - Creates a violin plot to visualize the distribution, probability density, and variability of data across different categories.
+
+> ``.heatmap`` (Function) - Creates a heatmap to visualize data in a matrix format using color gradients, often used to show correlations or patterns between variables.
+
+<font size="4"><b>Default Python Functionality (Built-in or Standard Library)</b></font>  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The built-in Python functionality and standard library provide tools for data manipulation and processing.
+These features include operations like sorting, summing, and string manipulation, which are frequently applied throughout the assignments.
+They offer a straightforward and efficient way to handle core programming tasks without requiring external libraries.
+
+>``ennumerate`` (Function) - Adds a counter to an iterable, returning both the index and the value in a loop, making it easier to track positions while iterating.
+
+>``.min`` (Function) - Returns the smallest value in an iterable or among arguments.
+
+>``.max`` (Function) - Returns the largest value in an iterable or among arguments. 
+
+>``.sum`` (Function) - Returns the sum of values in an iterable.  
+
+>``.append`` (Method) - Adds an element to the end of a list.
+
+>``.tolist`` (Method) - Converts an array-like object to a Python list.
+built in
+
+> ``.items`` (Method) - Iterates over DataFrame columns as key-value pairs.  
+
+> ``.get`` (Method) -  Retrieves the value for a specified key from a dictionary. If the key does not exist, it returns None or a user-defined default value instead of raising an error..  
+
+ References and Resources
+
+During the creation of this project, various online resources and documentation were utilized to support stock data analysis, visualization, and market understanding. Below is a categorized summary of these references, along with brief explanations of their relevance to the project.
+
+---
+
+### **YFinance Documentation and Tutorials**
+
+- **[10 Useful Functions in YFinance](https://medium.com/@kasperjuunge/yfinance-10-ways-to-get-stock-data-with-python-6677f49e8282)**  
+  Provided insights into advanced features and useful functions within the `yfinance` package for stock data retrieval.
+
+- **[YFinance Jupyter Notebook Tutorial](https://github.com/RaghavsScarletSplendour/YahooFinanceTutorial/blob/main/Yfinance_tutorial.ipynb)**  
+  Guided the setup, installation, and basic usage of `yfinance` in Python notebooks.
+
+- **[YFinance YouTube Tutorial](https://www.youtube.com/watch?v=3FG6ATh90IU)**  
+  Offered a step-by-step video walkthrough of how to use `yfinance` for fetching and analyzing stock data.
+
+---
+### **Data Visualization Techniques**
+
+- **[Small Multiples for Line Charts](https://python-graph-gallery.com/125-small-multiples-for-line-chart/)**  
+  Provided inspiration for creating multiple line charts with emphasis on specific data series.
+
+- **[Using Dictionaries for Plot Colors](https://stackoverflow.com/questions/73077364/using-a-dictionary-to-plot-a-bar-plot-and-using-another-dictionary-to-give-each)**  
+  Helped in dynamically assigning colors to plots based on industries or companies.
+
+- **[Matplotlib Dates API](https://matplotlib.org/stable/api/dates_api.html)**  
+  Guided the customization of date formatting and interval settings on plots.
+
+---
+
+### **Stock Market Concepts and Financial Metrics**
+
+- **[Market Capitalization Explained](https://www.investopedia.com/investing/market-capitalization-defined/)**  
+  Detailed the calculation and significance of market capitalization in evaluating companies.  
+
+- **[Price-to-Earnings (P/E) Ratio](https://www.investopedia.com/terms/p/price-earningsratio.asp)**  
+  Explained how to interpret P/E ratios in stock analysis.
+
+- **[Dividend Yield](https://www.investopedia.com/terms/d/dividendyield.asp)**  
+  Provided insights into how dividend yields reflect a company’s profitability.
+
+- **[Understanding Volume Patterns](https://www.investopedia.com/articles/technical/02/010702.asp)**  
+  Explained how trading volume can indicate market sentiment.
+
+- **[Beta Volatility](https://www.investopedia.com/investing/beta-know-risk/)**  
+  Covered how beta measures a stock’s volatility relative to the market.
+
+---
+
+### **Data Analysis and Manipulation**
+
+- **[Pandas GroupBy Documentation](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.groupby.html)**  
+  Used for aggregating and analyzing grouped data by industry or company.
+
+- **[Interpolation Techniques](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.interpolate.html)**  
+  Explained how to handle missing data, especially during non-trading days.
+
+- **[Handling SettingWithCopyWarning](https://www.dataquest.io/blog/settingwithcopywarning/)**  
+  Provided solutions to avoid unintended modifications in DataFrames.
+
+- **[Pandas `.pct_change()` Documentation](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.pct_change.html)**  
+  Explained how to calculate daily returns for stock data analysis.
+
+- **[Pandas `.stack()` Documentation](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.stack.html)**  
+  Used for reshaping pivot tables into long-format DataFrames.
+
+- **[Python `enumerate()` Function](https://docs.python.org/3/library/functions.html#enumerate)**  
+  Applied for efficient looping with counters, especially in correlation analysis.
+
+---
+
+### **Statistical Analysis and Technical Indicators**
+
+- **[Volatility Calculation in Python](https://medium.com/@polanitzer/volatility-calculation-in-python-estimate-the-annualized-volatility-of-historical-stock-prices-db937366a54d)**  
+  Explained how to compute annualized volatility for stock prices.
+
+- **[Simple Moving Average (SMA)](https://www.dummies.com/article/business-careers-money/personal-finance/investing/general-investing/how-to-calculate-simple-moving-average-in-trading-160018/)**  
+  Described how to calculate and interpret SMAs for trend analysis.
+
+- **[Pandas `.cumsum()` Documentation](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.cumsum.html)**  
+  Applied for cumulative return calculations in the analysis.
+
+---
+
+### **Advanced Plotting and Statistical Visualization**
+
+- **[Seaborn Boxplot Documentation](https://seaborn.pydata.org/archive/0.11/generated/seaborn.boxplot.html)**  
+  Helped in visualizing data distribution and detecting outliers.
+
+- **[Seaborn Violin Plot Documentation](https://seaborn.pydata.org/generated/seaborn.violinplot.html)**  
+  Used for visualizing both data distribution and density.
+
+---
+
+### **Company and Market Data Resources**
+
+- **[List of S&P 500 Companies](https://en.wikipedia.org/wiki/List_of_S%26P_500_companies)**  
+  Used to verify stock symbols for major publicly traded companies.
+
+- **[Investopedia – Interpolation](https://www.investopedia.com/terms/i/interpolation.asp)**  
+  Clarified how interpolation is used to fill gaps in time-series data.
+
+---
+
+## **Practical Application of Resources**
+
+- **Stock Data Collection:**  
+  `yfinance` tutorials and documentation guided the setup and data fetching process.
+
+- **Data Analysis:**  
+  Pandas and financial metric resources were vital for analyzing daily returns, volatility, and correlations.
+
+- **Visualization:**  
+  Plotting techniques and color mapping resources ensured clear and consistent data visualizations.
+
+- **Statistical Analysis:**  
+  Financial indicators like SMA, P/E ratio, and beta volatility were used to interpret stock trends and risks.
+
+--- 
 
 ### Description of common investing terminology
 
@@ -159,24 +432,3 @@ Understanding .cumsum():
 | **Timeframe**      | The **data range** selected for analysis (1y, 5y, 10y, etc.).                     | Text           | Provides **context** for comparisons between short-, mid-, and long-term performance.                        |
 | **Volatility**     | The **percentage change** between the day’s high and low prices.                  | % (percent)    | Measures **risk** and **price fluctuations** for both **individual stocks** and **industries**.               |
 | **Daily Returns**  | The **percentage change** in close price from the previous day.                   | % (percent)    | Evaluates **performance trends**, **correlations**, and **momentum shifts**.                               
-
-##### Links copied from footnotes in GitHub for notebook  
-[^1]: https://www.wallstreetzen.com/blog/investing-quotes/?utm_source=chatgpt.com#:~:text=%E2%80%9CInvesting%20is%20simple%2C%20but%20not%20easy.%E2%80%9D%20%E2%80%95%20Warren%20Buffett
-
-[^2]: https://www.finra.org/media-center/newsreleases/2022/new-finra-foundation-research-examines-changing-investor-landscape?utm_source=chatgpt.com#:~:text=New%20investors.%20One%20in%20five%20investors%20have%20less%20than%20two%20years%20of%20experience.%20The%20percentage%20of%20investors%20who%20began%20investing%20in%20the%20two%20years%20prior%20to%20the%20study%20(21%20percent)%20is%20nearly%20as%20large%20as%20the%20percentage%20who%20began%20in%20the%20preceding%20eight%20years%20(25%20percent).
-
-[^3]: https://www.diversitywoman.com/the-pros-and-cons-of-investing-apps
-
-[^4]: https://www.statista.com/forecasts/1474143/global-ai-market-size 
-
-[^5]: https://www.theguardian.com/environment/2024/nov/14/trump-clean-energy-climate-policies
-
-[^6]: https://www.independent.co.uk/news/world/americas/us-politics/trump-musk-friendship-history-b2672224.html
-
-[^7]: https://www.investopedia.com/what-trump-presidency-could-mean-for-electric-vehicles-tesla-musk-8743910
-
-[^8]: https://www.networkworld.com/article/3607725/ibm-announces-50-fold-quantum-speed-improvement.html
-
-[^9]: https://www.dwavesys.com/company/newsroom/press-release/d-wave-achieves-significant-milestone-with-calibration-of-4-400-qubit-advantage2-processor/
-
-[^10]: https://fortune.com/2025/01/09/nvidia-ceo-jensen-huang-tanks-quantum-computing-stocks/

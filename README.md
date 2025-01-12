@@ -234,6 +234,30 @@ The following are methods used throughout the assignments from `Pandas`:
 
 > ``.pct_change`` (Method) – Computes the percentage change between the current and previous element in a Series or DataFrame. It’s commonly used in financial analysis to measure daily, monthly, or yearly growth or decline in data like stock prices.
 
+> ``.copy`` (Method) – Creates a copy of a DataFrame or Series. This ensures that modifications to the copied object do not affect the original data. 
+
+> ``.std`` (Method) – Calculates the standard deviation of a Series or DataFrame.
+
+> ``.asfreq`` (Method) – Converts a time-series DataFrame or Series to a specified frequency. commonly used to ensure consistent time intervals, especially in financial or time-series data, where missing dates (like weekends or holidays) need to be accounted for. This method fills in missing dates without altering existing data.
+
+> ``.interpolate`` (Method) – Fills in missing (NaN) values in a DataFrame or Series using interpolation. It estimates missing data points by calculating values between known data points. Various interpolation methods can be applied, such as 'linear', 'polynomial', or 'time'.
+
+> ``.index`` (Attribute) – Returns the index (row labels) of a DataFrame or Series.
+
+> ``.cumprod`` (Method) – Calculates the cumulative product of a Series or DataFrame along a specified axis. Each value is multiplied by the product of all previous values.
+
+> ``.sort_index`` (Method) – Sorts a DataFrame or Series by its index in ascending or descending order. It is commonly used to organize time-series data chronologically or to align data for analysis. This method ensures that data is ordered correctly for operations like rolling calculations or visualizations.
+
+> ``.ffill`` (Method) – Performs forward fill to propagate the last valid (non-null) observation forward to fill missing (NaN) values in a Series or DataFrame. 
+
+> ``.rename`` (Method) – Rename labels of a Series or DataFrame. It can change column names, row indices, or both by passing a dictionary or a function. 
+
+> ``.merge`` (Method) – Combines two DataFrames based on common columns or index keys, similar to SQL joins. It allows for flexible merging operations like inner, outer, left, and right joins, enabling relational-style data analysis.
+
+> ``.idxmin`` (Method) – Returns the index label of the first occurrence of the minimum value in a Series or DataFrame column.
+
+> ``.idxmax`` (Method) – Returns the index label of the first occurrence of the maximum value in a Series or DataFrame column.
+
 <font size="4"><b>Matplotlib.pyplot</b></font>  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The ``Matplotlib.pyplot`` library is used for visual representation of the dataset.
 This library enables the creation of many types of plots including line plots, pie charts and bar charts which are generated throughout the assignments.  

@@ -197,7 +197,15 @@ def industry_close_prices_plot(data, time, colours):
     # filtering the combinded data in the dataframe to just select the data for the 1-year timeframe
     filtered_df = data[data['Timeframe'] == time]
 
-# creating a copy for plotting, so the original data remains unchanged
+    # getting the full word for the relevant df used to use for the title in the plot
+    if time == '1y':
+        timeframe = '1 year'
+    elif time == '5y':
+        timeframe = '5 year'
+    else:
+        timeframe = '10 year'
+
+    # creating a copy for plotting, so the original data remains unchanged
     plot_df = filtered_df.copy()
     
     # applying interpolation to handle missing values in the 'Close' column
@@ -220,7 +228,7 @@ def industry_close_prices_plot(data, time, colours):
     # customising the plot, title & labels
     plt.xlabel('Date')
     plt.ylabel('Mean Close Price')
-    plt.title(f'Industry Performance Over {time} (Mean Daily Close Price)')
+    plt.title(f'Industry Performance Over {timeframe} (Mean Daily Close Price)')
     plt.legend()
     plt.grid(True)
     plt.show()

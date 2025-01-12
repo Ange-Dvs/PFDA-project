@@ -228,6 +228,12 @@ The following are methods used throughout the assignments from `Pandas`:
 
 > ``.keys`` (Method) – Returns the keys (column labels for DataFrames or index labels for Series) of a pandas object, similar to how it works with Python dictionaries.
 
+> ``.cumsum`` (Method) – Calculates the cumulative sum of a Series or DataFrame along a specified axis. Each value is added to the sum of all previous values, making it useful for tracking cumulative totals over time, such as cumulative returns in stock analysis.
+
+> ``.stack`` (Method) – Reshapes a DataFrame by pivoting columns into rows, turning wide-format data into a long-format. This is helpful for converting hierarchical columns into a more analysis-friendly structure.
+
+> ``.pct_change`` (Method) – Computes the percentage change between the current and previous element in a Series or DataFrame. It’s commonly used in financial analysis to measure daily, monthly, or yearly growth or decline in data like stock prices.
+
 <font size="4"><b>Matplotlib.pyplot</b></font>  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The ``Matplotlib.pyplot`` library is used for visual representation of the dataset.
 This library enables the creation of many types of plots including line plots, pie charts and bar charts which are generated throughout the assignments.  

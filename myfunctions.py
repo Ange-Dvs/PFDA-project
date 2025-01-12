@@ -110,7 +110,7 @@ def company_close_plots(selected_companies, timeframe, fullnames, data):
     plt.grid(True)
     plt.show()
 
-def company_volatility_plots(selected_companies, timeframe, fullnames, data, colours): 
+def company_volatility_plots(selected_companies, timeframe, fullnames, data, colours, rolling_window): 
     i=0
     if timeframe == '5y':
         time = '5 year'
@@ -122,8 +122,8 @@ def company_volatility_plots(selected_companies, timeframe, fullnames, data, col
         company_df = data[timeframe][data[timeframe]['Company'] == selected_companies[i]].copy()
         colour = colours.get(selected_companies[i])
         # Calculate Rolling Volatility for the two companies
-        company_df['Rolling_Volatility'] = company_df['Close'].pct_change().rolling(window=30).std() * 100
-        plt.plot(company_df['Rolling_Volatility'], label=f'{fullnames[selected_companies[i]]}Rolling Volatility (30 days)', color=colour)
+        company_df['Rolling_Volatility'] = company_df['Close'].pct_change().rolling(window=rolling_window).std() * 100
+        plt.plot(company_df['Rolling_Volatility'], label=f'{fullnames[selected_companies[i]]}Rolling Volatility ({rolling_window} days)', color=colour)
         plt.xlabel('Date')
         plt.ylabel('Volatility (%)')
         i+=1
@@ -144,10 +144,15 @@ def company_trading_volume_plots(selected_companies, timeframe, fullnames, data)
     
     plt.figure(figsize=(14, 6))
     while i < 2:
+        # copying the df to use for the calculations
         company_df = data[timeframe][data[timeframe]['Company'] == selected_companies[i]].copy()
+
+        company_df = company_df.asfreq('D')  # aligning the index to daily frequency
+        company_df['Volume'] = company_df['Volume'].interpolate(method='linear', limit_direction='both') # tidying the data to fill in NaN values using liner interpolation
+
         plt.subplot(1,2,(i+1))
-        # Plot Volume
-        plt.bar(company_df.index, company_df['Volume'], alpha=0.5, label='Volume')
+        # plotting the volume
+        plt.bar(company_df.index, company_df['Volume'], alpha=1, label='Volume', width=1.0)
         plt.plot(company_df['Volume'].rolling(window=20).mean(), color='green', label='20-Day Avg Volume')
 
         plt.title(f'{fullnames[selected_companies[i]]} - Trading Volume ({time})', fontweight='bold')
@@ -259,7 +264,7 @@ def industry_close_SMA_plots(selected_industries, timeframe, data):
     plt.show()
 
 
-def industry_monthly_return_trends(industry_dataframes, colours, industries_to_compare):
+def industry_monthly_return_trends(industry_dataframes, colours, industries_to_compare, timeframe):
 
     # List to store processed industry DataFrames
     industry_daily_list = []
@@ -267,7 +272,7 @@ def industry_monthly_return_trends(industry_dataframes, colours, industries_to_c
     # Loop through each industry to calculate daily returns and store in the list
     for industry in industries_to_compare:
         # Filtering for the current industry
-        industry_df = industry_dataframes['5y'][industry_dataframes['5y']['Industry'] == industry].copy()
+        industry_df = industry_dataframes['5y'][industry_dataframes[timeframe]['Industry'] == industry].copy()
 
         # Resampling only numeric columns
         industry_numeric = industry_df.select_dtypes(include='number')

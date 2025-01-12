@@ -224,108 +224,6 @@ def industry_close_prices_plot(data, time, colours):
     plt.legend()
     plt.grid(True)
     plt.show()
- 
-def industry_close_SMA_plots(selected_industries, timeframe, data): 
-    if timeframe == '5y':
-        time = '5 year'
-    else:
-        time = '10 year'
-
-    # dynamically determining the number of subplots based on the number of selected industries
-    num_industries = len(selected_industries)
-    plt.figure(figsize=(14, 6))
-
-    for i, industry in enumerate(selected_industries): 
-        # filtering the data for the selected industry
-        industry_df = data[timeframe][data[timeframe]['Industry'] == industry].copy()
-
-        # calculating the average close price for the industry
-        industry_avg = industry_df.groupby('Date')['Close'].mean()
-        
-        # calculating the Moving Averages for the average close price
-        industry_avg_SMA_50 = industry_avg.rolling(window=50).mean()
-        industry_avg_SMA_200 = industry_avg.rolling(window=200).mean()
-
-        # plotting the data
-        plt.subplot(1, num_industries, i + 1)  # Adjust subplots dynamically
-        plt.plot(industry_avg, label='Avg Close Price', color='powderblue')
-        plt.plot(industry_avg_SMA_50, label='50-Day SMA', linestyle='--', color='green')
-        plt.plot(industry_avg_SMA_200, label='200-Day SMA', linestyle='--', color='orange')
-
-        # customising the plot, title & labels
-        plt.title(f'{industry} - Avg Close Prices ({time})', fontweight='bold')
-        plt.xlabel('Date')
-        plt.ylabel('Close Price')
-        plt.grid(True)
-    
-    plt.tight_layout()
-    plt.suptitle(f'{time} Trends: Close Prices & Moving Averages', y=1.15, fontsize=24)
-    plt.legend(framealpha=1.0, fontsize=12, ncols=3, bbox_to_anchor=(0.4, 1.15))
-    plt.show()
-
-
-def industry_monthly_return_trends(industry_dataframes, colours, industries_to_compare, timeframe):
-
-    # List to store processed industry DataFrames
-    industry_daily_list = []
-
-    # Loop through each industry to calculate daily returns and store in the list
-    for industry in industries_to_compare:
-        # Filtering for the current industry
-        industry_df = industry_dataframes['5y'][industry_dataframes[timeframe]['Industry'] == industry].copy()
-
-        # Resampling only numeric columns
-        industry_numeric = industry_df.select_dtypes(include='number')
-        industry_daily = industry_numeric.resample('D').mean()
-
-        # Adding back the 'Industry' column
-        industry_daily['Industry'] = industry
-
-        # Calculating Daily Returns
-        industry_daily['Daily_Returns'] = industry_daily['Close'].pct_change(fill_method=None)
-
-        # Extracting the month for seasonality analysis
-        industry_daily['Month'] = industry_daily.index.month
-
-        # Appending the processed DataFrame to the list
-        industry_daily_list.append(industry_daily)
-
-    # --- Plotting the Side-by-Side Box Plots with Fixed Y-Axis Limits ---
-    plt.figure(figsize=(18, 7))
-
-    # Loop through the processed data for plotting
-    for i, industry_daily in enumerate(industry_daily_list):
-        # Create subplot for each industry
-        plt.subplot(1, 2, i + 1)
-
-        # Create the box plot
-        sns.boxplot(data=industry_daily, x='Month', y='Daily_Returns', color=colours.get(industries_to_compare[i]))
-
-        # Customize x-axis with month names
-        plt.xticks(ticks=range(0, 12), labels=[
-            'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-        ])
-
-        # Add titles and labels
-        plt.title(f'{industries_to_compare[i]}', fontsize=16)
-        plt.xlabel('Month', fontsize=18, x=1.02)
-        plt.ylabel('Daily Returns', fontsize=18)
-        plt.ylim(-0.15, 0.15)  # Fixed y-axis limits for both plots
-        plt.grid(axis='y', linestyle='--', alpha=0.7)
-
-        # Hide y-ticks on the second plot but keep the grid
-        if i == 1:
-            plt.tick_params(axis='both', left=False, labelleft=False)
-            plt.xlabel(None)
-            plt.ylabel(None)
-
-    # Adjust layout to prevent overlap
-    plt.tight_layout()
-    plt.suptitle('Monthly Return Trends (5-Year)', fontsize=20, y=1.03)
-
-    # Show the combined plot
-    plt.show()
 
 def company_stats(industry_dataframes, timeframe, ticker, value_to_check, year_to_check): 
     # filtering the stock data in 2024 and sort by date
@@ -401,3 +299,39 @@ def company_stats(industry_dataframes, timeframe, ticker, value_to_check, year_t
     ][value_to_check].min()
 
     print(f'Min {ticker} {value_to_check} in {year_to_check}: {min_close_comp_2024[1]:.2f} on {min_close_comp_2024[0].date()}')
+
+def create_industry_returns_df(industries, industry_dataframes): 
+    # restructuring the data to get the close prices based on the 'Close' prices for each company 
+    company_returns = industry_dataframes['1y'].pivot_table(index=industry_dataframes['1y'].index, columns='Company', values='Close')
+
+    # calculating the percentage change for the companies close prices row by row individually using the pivot table 
+    company_returns = company_returns.pct_change().ffill()
+
+    # converting the pivot table structure to have the pivot headers feed in as values in the rows with new overarching headers created
+    company_returns_long = company_returns.stack().rename('Daily_Returns').reset_index() # converts the multiIndex of Date and Company back to columns
+
+        
+    # merging the data for the percentage change values to the 1y df based on 'Date' and 'Company' from company_returns_long 
+    industry_dataframes['1y'] = industry_dataframes['1y'].reset_index()  # temporarily resetting the index in the orginal dataframe to a 'Date' column to use as a bases to merge the data
+    industry_dataframes['1y'] = industry_dataframes['1y'].merge(
+        company_returns_long,
+        on=['Date', 'Company'],  # matching the rows based explicitly on values for company and date
+        how='left' # keeping all data from the left df (industry_dataframes['1y']) in case of missing values from the company_returns_long dataset
+    )
+
+    
+    # resetting the index back to a DatetimeIndex using the 'Date' column after merging
+    industry_dataframes['1y'].set_index('Date', inplace=True)
+
+    # creating mapping from companies to industries using the industries dictionary defined in the beginning of the notebook
+    company_to_industry = {}
+    for industry, companies in industries.items(): # cycling through the industries and companies in the dictionar
+        for company in companies: 
+            company_to_industry[company] = industry # looping through the companies individually and setting the pairing in the company_to_industry dictionary of teh company and correspending industry details
+
+    # tranposing the company_returns dataset and using the company_to_industry dictionary to gourp the companies by industry
+    grouped_returns = company_returns.T.groupby(company_to_industry)
+    industry_mean_returns = grouped_returns.mean() # calculating the mean returns per industry using the grouped data
+    industry_returns = industry_mean_returns.T # transposing back to the original format with the dates as rows
+
+    return industry_returns
